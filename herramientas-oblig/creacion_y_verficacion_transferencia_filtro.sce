@@ -116,7 +116,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // guardamos en un archivo los polinomios que define el filtro diseñado
 
-  save('filtro', 'num_z','den_z')
+  save('filtro', 'num_z','den_z') //esta es la unica diferencia con los  guiones de antes. Aca le digo que variables debo guardar
 
 
 ////////////////////////////////////////////////////////////////////////////////

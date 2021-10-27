@@ -3,7 +3,7 @@
 //
 // posible comando para leer un archivo .wav en un vector
 
-  [x_aux, Fs, bits] = wavread('trozo_mono.wav'); //Fs frec de muestreo
+  [x_aux, Fs, bits] = wavread('trozo_mono.wav'); //Fs frec de muestreo. Fs y bits vienen en los metadatos del archivo de audio. (boton derecho > properties > audio)
   
   size(x_aux) //devuelve filas y columnas. Si tiene 2 filas es stereo.
   Fs	//la Fs de muestreo es la que elegi en audacity al editar el archivo de audio
