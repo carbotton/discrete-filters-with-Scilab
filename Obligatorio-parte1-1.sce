@@ -69,11 +69,11 @@
   
 
     //---------- GRAFICA DE LA CURVA COMPLEJA DE h(PHI) ----------
-        scf(3);
-        clf()
-        xgrid()
-        plot2d(real(v_h_phi),imag(v_h_phi),style=2,strf='041')    
-        plot2d(real(v_z), imag(v_z),style=5, strf='001')
+//        scf(3);
+//        clf()
+//        xgrid()
+//        plot2d(real(v_h_phi),imag(v_h_phi),style=2,strf='041')    
+//        plot2d(real(v_z), imag(v_z),style=5, strf='001')
     //------------------------------
 
 
