@@ -4,10 +4,10 @@
 //    pendientemente la ganancia en cada una de las bandas.
 //========================================================================*/
 
-//x = [0 1];
-//newval = 5;
-//x = [x, newval]
-//
+x = [0 1];
+newval = 5;
+x = [x, newval]
+
 //v = [];
 //for ii = 1:3
 //  v = [v ii:4];

@@ -9,8 +9,12 @@
     
     //---------- INPUTS ----------
     //    phi_roots = [0 0.4 0.5 0.75 0.8 0.9]; //phi0, phi1, phi2, phi3, phi4, phi5
-        phi_roots = [0.5]; //con decimales funciona mal
-        phi_poles = [];
+    /* adentro de la func
+        phi_roots = [0.3 0.5]; //con decimales funciona mal
+        phi_poles = [0 0 0.2 0.2];
+        gain_poles = [0.312 0.312 0.757 0.757 0.6 0.6];
+    */
+        gain = 2;
     //------------------------------
     
     //---------- NUM_Z AND DEN_Z ----------    
@@ -28,7 +32,7 @@
                  z_roots = [z_roots, z_conj];
              end
          end
-         num_z = poly(0.1*z_roots($:-1:1),'z','r');
+         num_z = poly(z_roots($:-1:1),'z','r');
         else
             v_bi = [1];
             num_z = poly(v_bi($:-1:1),'z','c');
@@ -46,9 +50,9 @@
                  z_poles = [z_poles, z_conj];
              end
          end
-         den_z = poly(0.001*z_poles($:-1:1),'z','r');
+         den_z = poly(gain_poles($:-1:1).*z_poles($:-1:1),'z','r');
         else
-            v_ai = [0.9];
+            v_ai = [gain_poles(1)];
             den_z = poly(v_ai($:-1:1),'z','c');
 //            den_z = 1;     
         end
@@ -79,7 +83,7 @@
         scf(1);
         clf();
         xgrid();
-        plot2d(v_phi,abs(v_h_phi),style=2);    
+        plot2d(v_phi,gain*abs(v_h_phi)/max(abs(v_h_phi)),style=2);    
         plot2d(v_phi,ones(v_phi),style=5); 
         h2 = legend("Prueba");   
         

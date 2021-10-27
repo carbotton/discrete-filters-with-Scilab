@@ -33,7 +33,8 @@
 //   phi = 1/8
 //   tita = 2*%pi*phi;
 
-   v_ai = [1,-2*cos(4*%pi/5),1]
+//   v_ai = [1,-2*cos(4*%pi/5),1]
+    v_ai = [1, 0.5]
 
 // ingresar la cantidad de puntos del grafo para los cuales se evaluara
 // la transferencia
