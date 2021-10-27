@@ -9,7 +9,7 @@
     
     //---------- INPUTS ----------
     //    phi_roots = [0 0.4 0.5 0.75 0.8 0.9]; //phi0, phi1, phi2, phi3, phi4, phi5
-        phi_roots = [0 1/3]; //con decimales funciona mal
+        phi_roots = [2/5 1 1]; //con decimales funciona mal
         phi_poles = [];
     //------------------------------
     
@@ -30,7 +30,9 @@
          end
          num_z = poly(z_roots($:-1:1),'z','r');
         else
-            num_z = 1;     
+            v_bi = [1];
+            num_z = poly(v_bi($:-1:1),'z','c');
+//            num_z = 1;     
         end    
         
         z_poles = [];
@@ -46,10 +48,25 @@
          end
          den_z = poly(z_poles($:-1:1),'z','r');
         else
-            den_z = 1;     
+            v_ai = [1];
+            den_z = poly(v_ai($:-1:1),'z','c');
+//            den_z = 1;     
         end
     //------------------------------
-    
+
+    //------------------------------
+//       v_bi = coeff(num_z);
+//       v_ai = coeff(den_z);
+//    
+//       N_D = length(v_bi)-length(v_ai);
+//      
+//       p_N_D = poly( [zeros(1,abs(N_D)),1],'z','c' );
+//     
+//       if (N_D > 0)  then den_z = den_z*p_N_D;
+//        elseif (N_D < 0) then num_z = num_z*p_N_D;
+//       end
+    //------------------------------
+     
     //------------------------------   
         L = 1;   
         delta_phi = 0.0001;   
