@@ -9,7 +9,7 @@
     
     //---------- INPUTS ----------
     //    phi_roots = [0 0.4 0.5 0.75 0.8 0.9]; //phi0, phi1, phi2, phi3, phi4, phi5
-        phi_roots = [0 0.3];
+        phi_roots = [0 1/3]; //con decimales funciona mal
         phi_poles = [];
     //------------------------------
     
@@ -68,6 +68,13 @@
     //------------------------------
   
 
+    //---------- GRAFICA DE LA CURVA COMPLEJA DE h(PHI) ----------
+        scf(3);
+        clf()
+        xgrid()
+        plot2d(real(v_h_phi),imag(v_h_phi),style=2,strf='041')    
+        plot2d(real(v_z), imag(v_z),style=5, strf='001')
+    //------------------------------
 
 
 
