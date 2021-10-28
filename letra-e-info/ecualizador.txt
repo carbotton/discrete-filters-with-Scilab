@@ -67,4 +67,5 @@ Tipos de ecualizador:
 3. semiparametrico
 -------
 
+https://www.meldaproduction.com/tutorials/text/equalizers
 
