@@ -9,11 +9,11 @@
     
     //---------- INPUTS ----------
     //    phi_roots = [0 0.4 0.5 0.75 0.8 0.9]; //phi0, phi1, phi2, phi3, phi4, phi5
-    /* adentro de la func
+    //adentro de la func
         phi_roots = [0.3 0.5]; //con decimales funciona mal
         phi_poles = [0 0 0.2 0.2];
         gain_poles = [0.312 0.312 0.757 0.757 0.6 0.6];
-    */
+    //-
         gain = 2;
     //------------------------------
     
