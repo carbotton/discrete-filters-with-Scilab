@@ -19,7 +19,7 @@
         //PRUEBAS PARA PASABAJO
         phi_roots = [0.25]; 
         phi_poles = [0.17 0 0.16 0.1];
-        gain_poles = [0.852 0.852 0.49 0.5 0.5 0.61 0.61];
+        gain_poles = [0.86 0.86 0.51 0.565 0.565 0.55 0.55];
         
     //-
         gain = 2; 
