@@ -10,11 +10,19 @@
     //---------- INPUTS ----------
     //    phi_roots = [0 0.4 0.5 0.75 0.8 0.9]; //phi0, phi1, phi2, phi3, phi4, phi5
     //adentro de la func
-        phi_roots = [0.3 0.5]; //con decimales funciona mal
-        phi_poles = [0 0 0.2 0.2];
-        gain_poles = [0.312 0.312 0.757 0.757 0.6 0.6];
+    
+         //OPCION 1 PARA PASABAJO
+//        phi_roots = [0.3 0.5]; 
+//        phi_poles = [0 0 0.2 0.2];
+//        gain_poles = [0.312 0.312 0.757 0.757 0.6 0.6];
+
+        //PRUEBAS PARA PASABAJO
+        phi_roots = [0.25]; 
+        phi_poles = [0.17 0 0.16 0.1];
+        gain_poles = [0.852 0.852 0.49 0.5 0.5 0.61 0.61];
+        
     //-
-        gain = 2;
+        gain = 2; 
     //------------------------------
     
     //---------- NUM_Z AND DEN_Z ----------    
@@ -72,7 +80,7 @@
     //------------------------------
      
     //------------------------------   
-        L = 1;   
+        L = 0.6;   
         delta_phi = 0.0001;   
         v_phi = (0:delta_phi:L); 
         v_z = exp(%i*2*%pi*v_phi);   
