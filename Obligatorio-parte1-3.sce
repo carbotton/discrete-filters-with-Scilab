@@ -16,10 +16,18 @@
 //        phi_poles = [0 0 0.2 0.2];
 //        gain_poles = [0.312 0.312 0.757 0.757 0.6 0.6];
 
-        //PRUEBAS PARA PASABAJO
-        phi_roots = [0.25]; 
-        phi_poles = [0.17 0 0.16 0.1];
-        gain_poles = [0.86 0.86 0.51 0.565 0.565 0.55 0.55];
+        //PRUEBAS PARA PASABAJO -> FREC CORTE 0.2
+//        phi_roots = [0.25]; 
+//        phi_poles = [0.17 0 0.16 0.1];
+//        gain_poles = [0.86 0.86 0.51 0.565 0.565 0.55 0.55];
+
+
+        //PRUEBAS PARA PASA MEDIOS -> FREC CORTE ENTRE 0.25 Y 0.35
+        phi_roots = []; 
+        phi_poles = [0.25 0.35];
+        gain_poles = [0.9 0.9 0.9 0.9];
+        
+        //PRUEBAS PARA PASA MEDIOS -> FREC CORTE 0.4        
         
     //-
         gain = 2; 
@@ -80,7 +88,7 @@
     //------------------------------
      
     //------------------------------   
-        L = 1;   
+        L = 0.6;   
         delta_phi = 0.0001;   
         v_phi = (0:delta_phi:L); 
         v_z = exp(%i*2*%pi*v_phi);   

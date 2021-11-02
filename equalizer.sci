@@ -46,5 +46,7 @@ function [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain)
     transf = transf_low*transf_mid*transf_high;
     num_z = transf.num;
     den_z = transf.den;
+    disp(transf)
+    disp(den_z)
                 
 endfunction
