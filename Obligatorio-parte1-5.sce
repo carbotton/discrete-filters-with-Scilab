@@ -9,10 +9,11 @@
     //----- SET GAIN -------//
     low_gain = 2;
     middle_gain = 1;
-    high_gain = 1;
+    high_gain = 3;
     //-----------------------
    
     [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain);
+    save('filtro', 'num_z','den_z') //SIN ; sino no anda el LOAD
      
     //------------------------------   
         L = 1;   
