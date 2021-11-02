@@ -1,6 +1,5 @@
 /*
-    
-    LO QUE ESTA HECHO HASTA AHORA ES EL PASABAJOS APROX
+ 
 */
 
 function [num_z, den_z] = num_den_z(phi_roots, phi_poles, gain_poles)
@@ -10,7 +9,9 @@ function [num_z, den_z] = num_den_z(phi_roots, phi_poles, gain_poles)
     roots_qty = length(phi_roots);
     poles_qty = length(phi_poles);
     
-    // NUM ------------------------------
+    //------------------------------------------
+    //              Num
+    //------------------------------------------
         z_roots = [];
         if roots_qty > 0 then
          for i = 1:roots_qty
@@ -27,10 +28,11 @@ function [num_z, den_z] = num_den_z(phi_roots, phi_poles, gain_poles)
             num_z = 1;     
         end 
            
-        num_z = num_z*low_gain;    
-    //------------------------------
-    
-    // DEN ------------------------------
+        num_z = num_z*low_gain; 
+           
+    //------------------------------------------
+    //              Den
+    //------------------------------------------
         z_poles = [];
         if poles_qty > 0 then
          for i = 1:poles_qty
@@ -46,6 +48,5 @@ function [num_z, den_z] = num_den_z(phi_roots, phi_poles, gain_poles)
         else
             den_z = 1;    
         end 
-    //------------------------------
   
 endfunction

@@ -1,7 +1,6 @@
 /*========================================================================
     Construir un ecualizador por bandas para señales de audio digital.
-    El sistema debe tener como mínimo 3 bandas y se debe poder ajustar inde-
-    pendientemente la ganancia en cada una de las bandas.
+    El sistema debe tener como mínimo 3 bandas y se debe poder ajustar in    dependientemente la ganancia en cada una de las bandas.
 ========================================================================*/
     clear;
     xdel(winsid());
@@ -10,7 +9,7 @@
     //----- SET GAIN -------//
     low_gain = 2;
     middle_gain = 1;
-    high_gain = 3;
+    high_gain = 1;
     //-----------------------
    
     [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain);

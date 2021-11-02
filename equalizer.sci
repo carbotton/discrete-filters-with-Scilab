@@ -2,9 +2,9 @@
     
 */
 
-function [transf] = equializer(low_gain, middle_gain, high_gain)
+function [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain)
     
-    exec('./z_roots_poles.sci');
+    exec('./num_den_z.sci');
     
     //------------------------------------------
     //              Low pass filter
@@ -43,5 +43,8 @@ function [transf] = equializer(low_gain, middle_gain, high_gain)
     //              Crossover filter
     //------------------------------------------
     
-    transf = transf_low*transf_mid*transf_high;            
+    transf = transf_low*transf_mid*transf_high;
+    num_z = transf.num;
+    den_z = transf.den;
+                
 endfunction
