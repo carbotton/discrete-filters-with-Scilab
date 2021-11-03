@@ -7,12 +7,13 @@
     exec('./equalizer.sci');
     
     //----- SET GAIN -------//
-    low_gain = 2;
-    middle_gain = 1;
-    high_gain = 3;
+        low_gain = 1;
+        middle_gain = 1;
+        high_gain = 1;
     //-----------------------
    
-    [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain);
+    disp_all_filters = "true";   
+    [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain, disp_all_filters);
     save('filtro', 'num_z','den_z') //SIN ; sino no anda el LOAD
      
     //------------------------------   
@@ -25,11 +26,12 @@
     //------------------------------
     
     //---------- GRAFICA DEL MODULO DE h(PHI) ----------
-        scf(1);
+        scf(0);
         clf();
         xgrid();
-        plot2d(v_phi,abs(v_h_phi)/max_value,style=2);    
-        plot2d(v_phi,ones(v_phi),style=5);   
+        plot2d(v_phi,abs(v_h_phi)/max_value,style=1);    
+        plot2d(v_phi,ones(v_phi),style=5);
+        legend("filter")           
     //------------------------------
   
 
