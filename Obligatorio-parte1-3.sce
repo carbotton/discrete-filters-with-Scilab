@@ -27,13 +27,13 @@
 //        phi_poles = [0.32 0.25];
 //        gain_poles = [0.865 0.865 0.9 0.9];
         
-        //PRUEBAS PARA PASA MEDIOS -> FREC CORTE 0.4        
-        phi_roots = [0 0.1 0.2 0.3 0.35 0.4 0.6]; 
-        phi_poles = [0.4 0.45];
-        gain_poles = [0.9 0.9 0.8 0.8];
+        //PRUEBAS PARA PASA ALTOS -> FREC CORTE 0.4        
+        phi_roots = [0 0.1 0.2 0.3 0.35]; 
+        phi_poles = [0.38 0.38 0.45 0.45];
+        gain_poles = [0.9 0.9 0.9 0.9 0.48 0.48 0.48 0.48];
                
     //-
-        gain = 2; 
+        gain = 1; 
     //------------------------------
     
     //---------- NUM_Z AND DEN_Z ----------    
@@ -103,8 +103,7 @@
         clf();
         xgrid();
         plot2d(v_phi,gain*abs(v_h_phi)/max(abs(v_h_phi)),style=2);    
-        plot2d(v_phi,ones(v_phi),style=5); 
-        h2 = legend("Prueba");   
+        plot2d(v_phi,ones(v_phi),style=5);    
         
         // max(abs(v_h_phi))
     //------------------------------
