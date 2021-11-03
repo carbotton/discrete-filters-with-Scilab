@@ -35,9 +35,9 @@ function [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain, disp_filte
     //              cutoff freq = 0.4
     //------------------------------------------ 
        
-    phi_roots_high = [0 0.1 0.2 0.3 0.35 0.4 0.6];
-    phi_poles_high = [0.4 0.45];
-    gain_poles_high = [0.9 0.9 0.8 0.8]; 
+    phi_roots_high = [0 0.1 0.2 0.3 0.35];
+    phi_poles_high = [0.38 0.38 0.45 0.45];
+    gain_poles_high = [0.9 0.9 0.9 0.9 0.48 0.48 0.48 0.48]; 
     
     [num_z_high, den_z_high] = num_den_z(phi_roots_high, phi_poles_high, gain_poles_high);  
     transf_high = high_gain*num_z_high/den_z_high;
@@ -46,10 +46,16 @@ function [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain, disp_filte
     //              Crossover filter
     //------------------------------------------
     
-    transf = clean(transf_low+transf_mid+transf_high);
-//    transf = transf_low;
+    transf = clean(transf_low) + clean(transf_mid) + clean(transf_high);
     num_z = clean(transf.num);
     den_z = clean(transf.den);
+    disp(transf_low)
+    disp("==========================")
+    disp(transf_mid)
+    disp("==========================")
+    disp(transf_high)
+    disp("==========================")
+    disp(transf)
     
     //------------------------------------------
     //              Display filters separately
