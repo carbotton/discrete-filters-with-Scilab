@@ -49,13 +49,18 @@ function [num_z, den_z] = equalizer(low_gain, middle_gain, high_gain, disp_filte
     transf = clean(transf_low) + clean(transf_mid) + clean(transf_high);
     num_z = clean(transf.num);
     den_z = clean(transf.den);
-    disp(transf_low)
-    disp("==========================")
-    disp(transf_mid)
-    disp("==========================")
-    disp(transf_high)
-    disp("==========================")
-    disp(transf)
+
+//    disp(transf_low)
+//    disp(max(abs(transf_low)))
+//    disp("==========================")
+//    disp(transf_mid)
+//    disp(max(abs(transf_mid)))
+//    disp("==========================")
+//    disp(transf_high)
+//    disp(max(abs(transf_high)))
+//    disp("==========================")
+//    disp(transf)
+//    disp(max(abs(transf)))
     
     //------------------------------------------
     //              Display filters separately

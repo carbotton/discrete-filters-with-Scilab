@@ -48,5 +48,11 @@ function [num_z, den_z] = num_den_z(phi_roots, phi_poles, gain_poles)
         else
             den_z = 1;    
         end 
+
+    //------------------------------------------
+    //              Clean (calc errors)
+    //------------------------------------------        
+    num_z = clean(num_z);
+    den_z = clean(den_z);
   
 endfunction
