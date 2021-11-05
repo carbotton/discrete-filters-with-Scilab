@@ -13,7 +13,7 @@
         high_gain = 1;
     //-----------------------
    
-    disp_all_filters = "same_fig";   //none, same_fig, all
+    disp_all_filters = "all";   //none, same_fig, all
     [transf] = equalizer(low_gain, middle_gain, high_gain, disp_all_filters);
      
     //------------------------------   

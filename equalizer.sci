@@ -23,14 +23,14 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
      
     [num_z_low, den_z_low] = num_den_z(phi_roots_low, phi_poles_low, gain_poles_low);
       
-    transf_low = freq(real(num_z_low),real(den_z_low),v_z);
+    transf_low = freq(num_z_low,den_z_low,v_z);
     max_value_low = max(abs(transf_low)); 
-    transf_low = low_gain*(1/max_value_low)*clean(transf_low);
+    transf_low = low_gain*(1/max_value_low)*transf_low;
     
-    save('low_pass_filter', 'transf_low')
-    
+    save('low_pass_filter', 'num_z_low', 'den_z_low')  
      
-    
+    disp("transf_low")
+    disp(num_z_low/den_z_low)
     //------------------------------------------
     //              Band pass filter
     //              cutoff freqs = 0.25; 0.35
@@ -42,11 +42,11 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     
     [num_z_mid, den_z_mid] = num_den_z(phi_roots_mid, phi_poles_mid, gain_poles_mid);  
 
-    transf_mid = freq(real(num_z_mid),real(den_z_mid),v_z);
+    transf_mid = freq(num_z_mid,den_z_mid,v_z);
     max_value_mid = max(abs(transf_mid));
-    transf_mid = middle_gain*(1/max_value_mid)*clean(transf_mid);
+    transf_mid = middle_gain*(1/max_value_mid)*transf_mid;
     
-    save('band_pass_filter', 'transf_mid')
+    save('band_pass_filter', 'num_z_mid', 'den_z_mid')
     
     //------------------------------------------
     //              High pass filter
@@ -59,11 +59,11 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     
     [num_z_high, den_z_high] = num_den_z(phi_roots_high, phi_poles_high, gain_poles_high);
 
-    transf_high = freq(real(num_z_high),real(den_z_high),v_z);
+    transf_high = freq(num_z_high,den_z_high,v_z);
     max_value_high = max(abs(transf_high));
-    transf_high = high_gain*(1/max_value_high)*clean(transf_high);
+    transf_high = high_gain*(1/max_value_high)*transf_high;
     
-    save('high_pass_filter', 'transf_high')   //SIN ; sino no anda el LOAD
+    save('high_pass_filter', 'num_z_high', 'den_z_high')   //SIN ; sino no anda el LOAD
     
     //------------------------------------------
     //              Crossover filter
@@ -92,30 +92,30 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
         scf(1); //low pass filter
         clf();
         xgrid();
-        plot2d(v_phi,abs(transf_low)/max_value_low,style=2);    
+        plot2d(v_phi,abs(transf_low),style=2);    
         plot2d(v_phi,ones(v_phi),style=5);
         legend("Low pass filter")
         
         scf(2); //band pass filter
         clf();
         xgrid();
-        plot2d(v_phi,abs(transf_mid)/max_value_mid,style=2);    
+        plot2d(v_phi,abs(transf_mid),style=2);    
         plot2d(v_phi,ones(v_phi),style=5); 
         legend("Band pass filter") 
           
         scf(3); //high pass filter
         clf();
         xgrid();
-        plot2d(v_phi,abs(transf_high)/max_value_high,style=2);    
+        plot2d(v_phi,abs(transf_high),style=2);    
         plot2d(v_phi,ones(v_phi),style=5);  
         legend("High pass filter")
                 
         scf(4); //all filters
         clf();
         xgrid();
-        plot2d(v_phi,abs(transf_low)/max_value_low,style=2);
-        plot2d(v_phi,abs(transf_mid)/max_value_mid,style=6);          
-        plot2d(v_phi,abs(transf_high)/max_value_high,style=15);  
+        plot2d(v_phi,abs(transf_low),style=2);
+        plot2d(v_phi,abs(transf_mid),style=6);          
+        plot2d(v_phi,abs(transf_high),style=15);  
         plot2d(v_phi,ones(v_phi),style=5);  
         legend("low pass", "band pass", "high pass")   
             
@@ -124,9 +124,9 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
         scf(4); //all filters
         clf();
         xgrid();
-        plot2d(v_phi,abs(transf_low)/max_value_low,style=2);
-        plot2d(v_phi,abs(transf_mid)/max_value_mid,style=6);          
-        plot2d(v_phi,abs(transf_high)/max_value_high,style=15);  
+        plot2d(v_phi,abs(transf_low),style=2);
+        plot2d(v_phi,abs(transf_mid),style=6);          
+        plot2d(v_phi,abs(transf_high),style=15);  
         plot2d(v_phi,ones(v_phi),style=5);  
         legend("low pass", "band pass", "high pass")  
            

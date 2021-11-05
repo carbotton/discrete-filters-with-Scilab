@@ -28,7 +28,7 @@ function [num_z, den_z] = num_den_z(phi_roots, phi_poles, gain_poles)
             num_z = 1;     
         end 
            
-        num_z = num_z*low_gain; 
+        //num_z = num_z*low_gain; 
            
     //------------------------------------------
     //              Den
@@ -50,9 +50,9 @@ function [num_z, den_z] = num_den_z(phi_roots, phi_poles, gain_poles)
         end 
 
     //------------------------------------------
-    //              Clean (calc errors)
+    //   Clean (calc errors and complex coeff.)
     //------------------------------------------        
-        num_z = clean(num_z);
-        den_z = clean(den_z);
+        num_z = clean(real(num_z));
+        den_z = clean(real(den_z));
   
 endfunction
