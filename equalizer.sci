@@ -23,12 +23,13 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
      
     [num_z_low, den_z_low] = num_den_z(phi_roots_low, phi_poles_low, gain_poles_low);
       
-    transf_low = freq(num_z_low,den_z_low,v_z);
-    transf_low = low_gain*clean(transf_low);
+    transf_low = freq(real(num_z_low),real(den_z_low),v_z);
+    max_value_low = max(abs(transf_low)); 
+    transf_low = low_gain*(1/max_value_low)*clean(transf_low);
     
     save('low_pass_filter', 'transf_low')
     
-    max_value_low = max(abs(transf_low));  
+     
     
     //------------------------------------------
     //              Band pass filter
@@ -40,13 +41,12 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     gain_poles_mid = [0.865 0.865 0.9 0.9]; 
     
     [num_z_mid, den_z_mid] = num_den_z(phi_roots_mid, phi_poles_mid, gain_poles_mid);  
-    num_z_mid=real(num_z_mid); ////// CODIGO AGREGADO PARA QUE FUNCIONE    
-    transf_mid = freq(num_z_mid,den_z_mid,v_z);
-    transf_mid = middle_gain*clean(transf_mid);
+
+    transf_mid = freq(real(num_z_mid),real(den_z_mid),v_z);
+    max_value_mid = max(abs(transf_mid));
+    transf_mid = middle_gain*(1/max_value_mid)*clean(transf_mid);
     
     save('band_pass_filter', 'transf_mid')
-    
-    max_value_mid = max(abs(transf_mid));
     
     //------------------------------------------
     //              High pass filter
@@ -58,13 +58,12 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     gain_poles_high = [0.9 0.9 0.9 0.9 0.48 0.48 0.48 0.48]; 
     
     [num_z_high, den_z_high] = num_den_z(phi_roots_high, phi_poles_high, gain_poles_high);
-    num_z_high =real(num_z_high);  ////// CODIGO AGREGADO PARA QUE FUNCIONE  
-    transf_high = freq(num_z_high,den_z_high,v_z);
-    transf_high = high_gain*clean(transf_high);
+
+    transf_high = freq(real(num_z_high),real(den_z_high),v_z);
+    max_value_high = max(abs(transf_high));
+    transf_high = high_gain*(1/max_value_high)*clean(transf_high);
     
     save('high_pass_filter', 'transf_high')   //SIN ; sino no anda el LOAD
-    
-    max_value_high = max(abs(transf_high));
     
     //------------------------------------------
     //              Crossover filter
