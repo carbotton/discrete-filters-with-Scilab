@@ -27,10 +27,8 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     max_value_low = max(abs(transf_low)); 
     transf_low = low_gain*(1/max_value_low)*transf_low;
     
-    save('low_pass_filter', 'num_z_low', 'den_z_low')  
-     
-    disp("transf_low")
-    disp(num_z_low/den_z_low)
+    save('./filters/low_pass_filter', 'num_z_low', 'den_z_low')  
+
     //------------------------------------------
     //              Band pass filter
     //              cutoff freqs = 0.25; 0.35
@@ -46,7 +44,7 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     max_value_mid = max(abs(transf_mid));
     transf_mid = middle_gain*(1/max_value_mid)*transf_mid;
     
-    save('band_pass_filter', 'num_z_mid', 'den_z_mid')
+    save('./filters/band_pass_filter', 'num_z_mid', 'den_z_mid')
     
     //------------------------------------------
     //              High pass filter
@@ -63,25 +61,13 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     max_value_high = max(abs(transf_high));
     transf_high = high_gain*(1/max_value_high)*transf_high;
     
-    save('high_pass_filter', 'num_z_high', 'den_z_high')   //SIN ; sino no anda el LOAD
+    save('./filters/high_pass_filter', 'num_z_high', 'den_z_high')   //SIN ; sino no anda el LOAD
     
     //------------------------------------------
     //              Crossover filter
     //------------------------------------------
     
     transf = transf_low + transf_mid + transf_high;
-
-//    disp(transf_low)
-//    disp(max(abs(transf_low)))
-//    disp("==========================")
-//    disp(transf_mid)
-//    disp(max(abs(transf_mid)))
-//    disp("==========================")
-//    disp(transf_high)
-//    disp(max(abs(transf_high)))
-//    disp("==========================")
-//    disp(transf)
-//    disp(max(abs(transf)))
     
     //------------------------------------------
     //              Display filters separately
