@@ -9,8 +9,8 @@
     
     //----- SET GAIN -------//
         low_gain = 1;
-        middle_gain = 1;
-        high_gain = 1;
+        middle_gain = 0.3;
+        high_gain = 2;
     //-----------------------
    
     disp_all_filters = "all";   //none, same_fig, all
@@ -22,7 +22,7 @@
         L = 1;   
         delta_phi = 0.0001;   
         v_phi = (0:delta_phi:L); 
-        max_value = max(abs(transf));
+        max_value = 1;//max(abs(transf));
             
         scf(0);
         clf();
