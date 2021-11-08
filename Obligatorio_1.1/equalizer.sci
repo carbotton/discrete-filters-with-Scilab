@@ -7,7 +7,7 @@
 function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     
     exec('./num_den_z.sci');
-    L = 0.5;   
+    L = 1;   
     delta_phi = 0.0001;   
     v_phi = (0:delta_phi:L); 
     v_z = exp(%i*2*%pi*v_phi);    
@@ -49,24 +49,9 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     //              High pass filter
     //              cutoff freq = 0.36
     //------------------------------------------ 
-       
-//    phi_roots_high = [0 0.1 0.2 0.3 0.35];
-//    phi_poles_high = [0.38 0.38 0.45 0.45];
-//    gain_poles_high = [0.9 0.9 0.9 0.9 0.48 0.48 0.48 0.48]; 
-    
-    //PRITIIIIIIIIIIIII
-//    phi_roots_high = [0.35];
-//    phi_poles_high = [0.38 0.38 0.45 0.45];
-//    gain_poles_high = [0.82 0.82 0.82 0.82 0.48 0.48 0.48 0.48]; 
 
     phi_roots_high = [0.3 0.35];
     phi_poles_high = [0.38 0.86; 0.38 0.86; 0.45 0.67];
-
-//    phi_roots_high = [0];
-//    phi_poles_high = [0.3 0.38 0.38 0.38 0.41 0.45 0.45 0.5];
-//    gain_poles_high = [0.9 0.9 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.75 0.75 0.75 0.75 0.6 0.6];     
-//    phi_poles_high = [0.38 0.38 0.45 0.45 0.45 0.5];
-//    gain_poles_high = [0.8 0.8 0.8 0.8 0.75 0.75 0.75 0.75 0.75 0.75 0.55 0.55]; 
     
     [num_z_high, den_z_high] = num_den_z(phi_roots_high, phi_poles_high);
 
@@ -88,35 +73,35 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     
     if  disp_filters == "all" then             
         
-//        scf(1); //low pass filter
-//        clf();
-//        xgrid();
-//        plot2d(v_phi,abs(transf_low),style=2);    
-//        plot2d(v_phi,ones(v_phi),style=5);
-//        legend("Low pass filter")
+        scf(1); //low pass filter
+        clf();
+        xgrid();
+        plot2d(v_phi,abs(transf_low),style=2);    
+        plot2d(v_phi,ones(v_phi),style=5);
+        legend("Low pass filter")
         
-//        scf(2); //band pass filter
-//        clf();
-//        xgrid();
-//        plot2d(v_phi,abs(transf_mid),style=2);    
-//        plot2d(v_phi,ones(v_phi),style=5); 
-//        legend("Band pass filter") 
+        scf(2); //band pass filter
+        clf();
+        xgrid();
+        plot2d(v_phi,abs(transf_mid),style=2);    
+        plot2d(v_phi,ones(v_phi),style=5); 
+        legend("Band pass filter") 
           
         scf(3); //high pass filter
         clf();
         xgrid();
         plot2d(v_phi,abs(transf_high),style=2);    
         plot2d(v_phi,ones(v_phi),style=5);  
-//        legend("High pass filter")
+        legend("High pass filter")
                 
-//        scf(4); //all filters
-//        clf();
-//        xgrid();
-//        plot2d(v_phi,abs(transf_low),style=2);
-//        plot2d(v_phi,abs(transf_mid),style=6);          
-//        plot2d(v_phi,abs(transf_high),style=15);  
-//        plot2d(v_phi,ones(v_phi),style=5);  
-//        legend("low pass", "band pass", "high pass")   
+        scf(4); //all filters
+        clf();
+        xgrid();
+        plot2d(v_phi,abs(transf_low),style=2);
+        plot2d(v_phi,abs(transf_mid),style=6);          
+        plot2d(v_phi,abs(transf_high),style=15);  
+        plot2d(v_phi,ones(v_phi),style=5);  
+        legend("low pass", "band pass", "high pass")   
             
     elseif disp_filters == "same_fig" then
         

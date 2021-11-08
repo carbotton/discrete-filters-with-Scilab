@@ -13,7 +13,7 @@
         high_gain = 1;
     //-----------------------
    
-    disp_all_filters = "all";   //none, same_fig, all
+    disp_all_filters = "same_fig";   //none, same_fig, all
     [transf] = equalizer(low_gain, middle_gain, high_gain, disp_all_filters);
      
     //------------------------------   
@@ -24,9 +24,9 @@
         v_phi = (0:delta_phi:L); 
         max_value = max(abs(transf));
            
-//        scf(0);
-//        clf();
-//        xgrid();
-//        plot2d(v_phi,abs(transf)/max_value,style=1);    
-//        legend("filter")           
+        scf(0);
+        clf();
+        xgrid();
+        plot2d(v_phi,abs(transf)/max_value,style=2);
+        legend("filter")           
     //------------------------------

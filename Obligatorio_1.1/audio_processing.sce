@@ -31,15 +31,13 @@
                             
         scf(5);
         clf() 
-        xgrid()
-        
+        xgrid()        
         plot2d(Fs*v_phi, abs(v_h_phi_x_entrada), style=2)   //multiplico por Fs para escalar 
       
         v_h_phi_x_procesado = fft(x_processed);
         
         scf(6);
         clf() 
-        xgrid()        
-    
+        xgrid()     
         plot2d(Fs*v_phi, abs(v_h_phi_x_procesado), style=5) 
    
