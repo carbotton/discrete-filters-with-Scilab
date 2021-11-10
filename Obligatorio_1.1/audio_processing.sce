@@ -33,7 +33,7 @@
         //-      
         
         x_proc = x_proc_low + x_proc_mid + x_proc_high;       
-        x_proc = x_proc($:-1:1);  //truncar entre -1 y 1
+        x_proc = x_proc/max(x_proc);
         
 //        wavwrite(x_proc, Fs, './audios/beth-symph-processed.wav');
         wavwrite(x_proc, Fs, './audios/example_1-processed.wav');
