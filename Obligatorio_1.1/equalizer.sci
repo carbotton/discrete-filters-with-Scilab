@@ -71,27 +71,33 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     //              Display filters separately
     //------------------------------------------ 
 
-if disp_all_filters               
-    scf(2);        
-    subplot(2,2,1)
-    xgrid();
-    plot2d(v_phi,abs(transf_low),style=2);
-    title('Filtro pasa bajos','fontsize',3);        
-    subplot(2,2,2)
-    xgrid();
-    plot2d(v_phi,abs(transf_mid),style=2); 
-    title('Filtro pasa banda','fontsize',3);        
-    subplot(2,2,3)
-    xgrid();
-    plot2d(v_phi,abs(transf_high),style=2);
-    title('Filtro pasa altos','fontsize',3);        
-    subplot(2,2,4)
-    xgrid();
-    plot2d(v_phi,abs(transf_low),style=2);
-    xgrid();    
-    plot2d(v_phi,abs(transf_mid),style=6); 
-    xgrid();     
-    plot2d(v_phi,abs(transf_high),style=15);
-    title('Filtros pasa bajos, pasa banda y pasa altos','fontsize',2);    
-end               
+    if disp_all_filters == %t              
+        scf(2);        
+        subplot(2,2,1)
+        xgrid();
+        plot2d(v_phi,abs(transf_low),style=2);
+        title('Filtro pasa bajos','fontsize',3); 
+        xlabel('$\varphi$', 'fontsize', 2);
+        ylabel(['|H(' '$\varphi$' ')|'])
+        subplot(2,2,2)
+        xgrid();
+        plot2d(v_phi,abs(transf_mid),style=2); 
+        title('Filtro pasa banda','fontsize',3);
+        xlabel('$\varphi$', 'fontsize', 2);
+        ylabel(['|H(' '$\varphi$' ')|'])           
+        subplot(2,2,3)
+        xgrid();
+        plot2d(v_phi,abs(transf_high),style=2);
+        title('Filtro pasa altos','fontsize',3);  
+        xlabel('$\varphi$', 'fontsize', 2);
+        ylabel(['|H(' '$\varphi$' ')|'])          
+        subplot(2,2,4)
+        xgrid();
+        plot2d(v_phi,abs(transf_low),style=2);
+        xgrid();    
+        plot2d(v_phi,abs(transf_mid),style=6); 
+        xgrid();     
+        plot2d(v_phi,abs(transf_high),style=15);
+        title('Filtros pasa bajos, pasa banda y pasa altos','fontsize',2);
+    end               
 endfunction

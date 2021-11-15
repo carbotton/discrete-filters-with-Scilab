@@ -5,7 +5,7 @@
     //------------------------------------------ 
     
 //        [x_in, Fs, bits] = wavread('./audios/beth-symph.wav');
-        [x_in, Fs, bits] = wavread('./audios/example_1.wav');
+        [x_in, Fs, bits] = wavread('./audios/example.wav');
 //        [x_in, Fs, bits] = wavread('./audios/sweep_inv.wav');
         x_in_mono = x_in(1,:);
          
@@ -17,9 +17,23 @@
         load('./filters/band_pass_filter'); 
         load('./filters/high_pass_filter');
 
-        x_proc_low = rtitr(num_z_low, den_z_low, x_in_mono);
-        x_proc_mid = rtitr(num_z_mid, den_z_mid, x_in_mono);
-        x_proc_high = rtitr(num_z_high, den_z_high, x_in_mono);
+    L = 1;   
+    delta_phi = 0.0001;   
+    v_phi = (0:delta_phi:L); 
+    v_z = exp(%i*2*%pi*v_phi); 
+    
+    transf_low = freq(num_z_low,den_z_low,v_z);
+    num_z_low = num_z_low/max(abs(transf_low))
+
+    transf_mid = freq(num_z_mid,den_z_mid,v_z);
+    num_z_mid = num_z_mid/max(abs(transf_mid))
+    
+    transf_high = freq(num_z_high,den_z_high,v_z);
+    num_z_high = num_z_high/max(abs(transf_high))    
+    
+        x_proc_low = rtitr(low_gain*num_z_low, den_z_low, x_in_mono);
+        x_proc_mid = rtitr(middle_gain*num_z_mid, den_z_mid, x_in_mono);
+        x_proc_high = rtitr(high_gain*num_z_high, den_z_high, x_in_mono);
         
         //solve inconsistent row-column dimensions
             [rl,cl] = size(x_proc_low);
@@ -32,13 +46,15 @@
             x_proc_mid = x_proc_mid(:, 1:c); 
             x_proc_high = x_proc_high(:, 1:c);  
         //-        
-        x_proc = x_proc_low*low_gain + x_proc_mid*middle_gain + x_proc_high*high_gain;
-//        x_proc = x_proc_low + x_proc_mid + x_proc_high;
-        x_proc = x_proc/max(x_proc);
+//        x_proc = x_proc_low*low_gain + x_proc_mid*middle_gain + x_proc_high*high_gain;
+//        x_proc = x_proc_low/max(x_proc_low) + x_proc_mid/max(x_proc_mid) + x_proc_high/max(x_proc_high);
+//        x_proc = x_proc_low*low_gain*(1/max(x_proc_low)) + x_proc_mid*middle_gain*(1/max(x_proc_mid)) + x_proc_high*high_gain*(1/max(x_proc_high));
+        x_proc = x_proc_low + x_proc_mid + x_proc_high;
+//        x_proc = x_proc/max(abs(x_proc));
         
 //        wavwrite(x_proc, Fs, './audios/beth-symph-processed4.wav');
-        wavwrite(x_proc, Fs, './audios/example_1-processed.wav');
-//        wavwrite(x_proc, Fs, './audios/sweep_inv-processed4.wav');
+        wavwrite(x_proc, Fs, './audios/example-processed.wav');
+//        wavwrite(x_proc, Fs, './audios/sweep_inv-processed.wav');
 
     //------------------------------------------
     //              plot using FFT
@@ -56,6 +72,7 @@
         xgrid()
         plot2d(Fs*v_phi, abs(v_h_phi_x_in_mono), style=2)  //multiplico por Fs para escalar 
         title('FFT: Audio de entrada','fontsize',3);
+        xlabel("f");
         //solve incompatible sizes plot2d
            [r1,c1] = size(v_phi);
            [r2,c2] = size(v_h_phi_x_proc);
@@ -67,6 +84,7 @@
         xgrid()
         plot2d(Fs*v_phi, abs(v_h_phi_x_proc), style=5) 
         title('FFT: Audio procesado','fontsize',3);
+        xlabel("f");
         subplot(2,2,3)
         xgrid()
         plot(x_in_mono)

@@ -8,12 +8,12 @@
     exec('./equalizer.sci');
     
     //----- SET GAIN -------//
-        low_gain = 0.5;
-        middle_gain = 0.2;
-        high_gain = 0.9;
+        low_gain = 1;
+        middle_gain = 1;
+        high_gain = 1;
     //-----------------------
    
-    disp_all_filters = %f; //true or false
+    disp_all_filters = %t; //true or false
     [transf] = equalizer(low_gain, middle_gain, high_gain, disp_all_filters);
      
     //------------------------------   
@@ -29,4 +29,6 @@
         xgrid();
         plot2d(v_phi,abs(transf)/max_value,style=2);
         title('Filtros sumados -> Ganancias: bajos: '+string(low_gain)+', medios: '+string(middle_gain)+', altos: '+string(high_gain), 'fontsize',3); 
+        xlabel('$\varphi$', 'fontsize', 2);
+        ylabel(['|H(' '$\varphi$' ')|'])
     //------------------------------
