@@ -8,12 +8,12 @@
     exec('./equalizer.sci');
     
     //----- SET GAIN -------//
-        low_gain = 1;
+        low_gain = 0;
         middle_gain = 1;
-        high_gain = 1;
+        high_gain = 0;
     //-----------------------
    
-    disp_all_filters = "same_fig";   //none, same_fig, all
+    disp_all_filters = "all";   //none, same_fig, all
     [transf] = equalizer(low_gain, middle_gain, high_gain, disp_all_filters);
      
     //------------------------------   
@@ -28,5 +28,5 @@
         clf();
         xgrid();
         plot2d(v_phi,abs(transf)/max_value,style=2);
-        legend("filter")           
+        title('Filtros sumados','fontsize',3);           
     //------------------------------

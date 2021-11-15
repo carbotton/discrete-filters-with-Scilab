@@ -4,8 +4,9 @@
     //              save 1 channel
     //------------------------------------------ 
     
-//        [x_in, Fs, bits] = wavread('./audios/beth-symph.wav');
-        [x_in, Fs, bits] = wavread('./audios/example_1.wav');
+        [x_in, Fs, bits] = wavread('./audios/beth-symph.wav');
+//        [x_in, Fs, bits] = wavread('./audios/example_1.wav');
+//        [x_in, Fs, bits] = wavread('./audios/sweep_inv.wav');
         x_in_mono = x_in(1,:);
          
     //------------------------------------------
@@ -15,7 +16,7 @@
         load('./filters/low_pass_filter');
         load('./filters/band_pass_filter'); 
         load('./filters/high_pass_filter');
-        
+
         x_proc_low = rtitr(num_z_low, den_z_low, x_in_mono);
         x_proc_mid = rtitr(num_z_mid, den_z_mid, x_in_mono);
         x_proc_high = rtitr(num_z_high, den_z_high, x_in_mono);
@@ -32,11 +33,12 @@
             x_proc_high = x_proc_high(:, 1:c);  
         //-      
         
-        x_proc = x_proc_low + x_proc_mid + x_proc_high;       
+        x_proc = x_proc_low*low_gain + x_proc_mid*middle_gain + x_proc_high*high_gain;       
         x_proc = x_proc/max(x_proc);
         
-//        wavwrite(x_proc, Fs, './audios/beth-symph-processed.wav');
-        wavwrite(x_proc, Fs, './audios/example_1-processed.wav');
+        wavwrite(x_proc, Fs, './audios/beth-symph-processed3.wav');
+//        wavwrite(x_proc, Fs, './audios/example_1-processed.wav');
+//        wavwrite(x_proc, Fs, './audios/sweep_inv-processed.wav');
 
     //------------------------------------------
     //              plot using FFT
@@ -53,6 +55,7 @@
         xgrid()       
         //multiplico por Fs para escalar 
         plot2d(Fs*v_phi, abs(v_h_phi_x_in_mono), style=2)
+        title('Audio de entrada','fontsize',3);
         
         scf(6);
         clf() 
@@ -65,4 +68,11 @@
            v_phi = v_phi(:, 1:c);
         //-
         plot2d(Fs*v_phi, abs(v_h_phi_x_proc), style=5) 
-   
+        title('Audio procesado','fontsize',3);
+        
+        scf(7)
+        clf()
+        xgrid()
+        plot(x_in_mono)
+        scf(8)
+        plot(x_proc)
