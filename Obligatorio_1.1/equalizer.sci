@@ -26,7 +26,7 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     max_value_low = max(abs(transf_low)); 
 
     transf_low = low_gain*(1/max_value_low)*transf_low;
-    
+
     save('./filters/low_pass_filter', 'num_z_low', 'den_z_low', 'low_gain')  
 
     //------------------------------------------
@@ -70,52 +70,28 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     //------------------------------------------
     //              Display filters separately
     //------------------------------------------ 
-    
-    if  disp_filters == "all" then             
-        
-        scf(1); //low pass filter
-        clf();
-        xgrid();
-        plot2d(v_phi,abs(transf_low),style=2);    
-        plot2d(v_phi,ones(v_phi),style=5);
-        title('Filtro pasa bajos','fontsize',3);
-        
-        scf(2); //band pass filter
-        clf();
-        xgrid();
-        plot2d(v_phi,abs(transf_mid),style=2);    
-        plot2d(v_phi,ones(v_phi),style=5); 
-        title('Filtro pasa banda','fontsize',3); 
-          
-        scf(3); //high pass filter
-        clf();
-        xgrid();
-        plot2d(v_phi,abs(transf_high),style=2);    
-        plot2d(v_phi,ones(v_phi),style=5);  
-        title('Filtro pasa altos','fontsize',3);
-                
-        scf(4); //all filters
-        clf();
-        xgrid();
-        plot2d(v_phi,abs(transf_low),style=2);
-        plot2d(v_phi,abs(transf_mid),style=6);          
-        plot2d(v_phi,abs(transf_high),style=15);  
-        plot2d(v_phi,ones(v_phi),style=5);  
-        title('Filtros pasa bajos, pasa banda y pasa altos','fontsize',2);
-        legend("pasa bajos", "pasa banda", "pasa altos");
-            
-    elseif disp_filters == "same_fig" then
-        
-        scf(4); //all filters
-        clf();
-        xgrid();
-        plot2d(v_phi,abs(transf_low),style=2);
-        plot2d(v_phi,abs(transf_mid),style=6);          
-        plot2d(v_phi,abs(transf_high),style=15);  
-        plot2d(v_phi,ones(v_phi),style=5);  
-        title('Filtros pasabajos, pasabanda y pasa altos','fontsize',2);  
-        legend("pasa bajos", "pasa banda", "pasa altos");
-                   
-    end
-               
+
+if disp_all_filters               
+    scf(2);        
+    subplot(2,2,1)
+    xgrid();
+    plot2d(v_phi,abs(transf_low),style=2);
+    title('Filtro pasa bajos','fontsize',3);        
+    subplot(2,2,2)
+    xgrid();
+    plot2d(v_phi,abs(transf_mid),style=2); 
+    title('Filtro pasa banda','fontsize',3);        
+    subplot(2,2,3)
+    xgrid();
+    plot2d(v_phi,abs(transf_high),style=2);
+    title('Filtro pasa altos','fontsize',3);        
+    subplot(2,2,4)
+    xgrid();
+    plot2d(v_phi,abs(transf_low),style=2);
+    xgrid();    
+    plot2d(v_phi,abs(transf_mid),style=6); 
+    xgrid();     
+    plot2d(v_phi,abs(transf_high),style=15);
+    title('Filtros pasa bajos, pasa banda y pasa altos','fontsize',2);    
+end               
 endfunction

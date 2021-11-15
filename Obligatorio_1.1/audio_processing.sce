@@ -4,8 +4,8 @@
     //              save 1 channel
     //------------------------------------------ 
     
-        [x_in, Fs, bits] = wavread('./audios/beth-symph.wav');
-//        [x_in, Fs, bits] = wavread('./audios/example_1.wav');
+//        [x_in, Fs, bits] = wavread('./audios/beth-symph.wav');
+        [x_in, Fs, bits] = wavread('./audios/example_1.wav');
 //        [x_in, Fs, bits] = wavread('./audios/sweep_inv.wav');
         x_in_mono = x_in(1,:);
          
@@ -31,14 +31,14 @@
             x_proc_low = x_proc_low(:, 1:c);
             x_proc_mid = x_proc_mid(:, 1:c); 
             x_proc_high = x_proc_high(:, 1:c);  
-        //-      
-        
-        x_proc = x_proc_low*low_gain + x_proc_mid*middle_gain + x_proc_high*high_gain;       
+        //-        
+        x_proc = x_proc_low*low_gain + x_proc_mid*middle_gain + x_proc_high*high_gain;
+//        x_proc = x_proc_low + x_proc_mid + x_proc_high;
         x_proc = x_proc/max(x_proc);
         
-        wavwrite(x_proc, Fs, './audios/beth-symph-processed3.wav');
-//        wavwrite(x_proc, Fs, './audios/example_1-processed.wav');
-//        wavwrite(x_proc, Fs, './audios/sweep_inv-processed.wav');
+//        wavwrite(x_proc, Fs, './audios/beth-symph-processed4.wav');
+        wavwrite(x_proc, Fs, './audios/example_1-processed.wav');
+//        wavwrite(x_proc, Fs, './audios/sweep_inv-processed4.wav');
 
     //------------------------------------------
     //              plot using FFT
@@ -48,31 +48,30 @@
         v_phi = (1/L)*[0:1:L-1];
               
         v_h_phi_x_in_mono = fft(x_in_mono);                   
-        v_h_phi_x_proc = fft(x_proc);       
-                            
-        scf(5);
-        clf() 
-        xgrid()       
-        //multiplico por Fs para escalar 
-        plot2d(Fs*v_phi, abs(v_h_phi_x_in_mono), style=2)
-        title('Audio de entrada','fontsize',3);
+        v_h_phi_x_proc = fft(x_proc);                               
         
-        scf(6);
-        clf() 
+        scf(3)             
+        clf()
+        subplot(2,2,1)
         xgrid()
+        plot2d(Fs*v_phi, abs(v_h_phi_x_in_mono), style=2)  //multiplico por Fs para escalar 
+        title('FFT: Audio de entrada','fontsize',3);
         //solve incompatible sizes plot2d
            [r1,c1] = size(v_phi);
            [r2,c2] = size(v_h_phi_x_proc);
            c = min([c1 c2]);
            v_h_phi_x_proc = v_h_phi_x_proc(:, 1:c);
            v_phi = v_phi(:, 1:c);
-        //-
+        //-        
+        subplot(2,2,2)
+        xgrid()
         plot2d(Fs*v_phi, abs(v_h_phi_x_proc), style=5) 
-        title('Audio procesado','fontsize',3);
-        
-        scf(7)
-        clf()
+        title('FFT: Audio procesado','fontsize',3);
+        subplot(2,2,3)
         xgrid()
         plot(x_in_mono)
-        scf(8)
+        title('Audio entrada','fontsize',3)
+        subplot(2,2,4)
+        xgrid()
         plot(x_proc)
+        title('Audio procesado','fontsize',3)
