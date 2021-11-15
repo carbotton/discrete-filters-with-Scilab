@@ -4,8 +4,8 @@
     //              save 1 channel
     //------------------------------------------ 
     
-//        [x_in, Fs, bits] = wavread('./audios/beth-symph.wav');
-        [x_in, Fs, bits] = wavread('./audios/example.wav');
+        [x_in, Fs, bits] = wavread('./audios/beth-symph.wav');
+//        [x_in, Fs, bits] = wavread('./audios/example.wav');
 //        [x_in, Fs, bits] = wavread('./audios/sweep_inv.wav');
         x_in_mono = x_in(1,:);
          
@@ -46,14 +46,11 @@
             x_proc_mid = x_proc_mid(:, 1:c); 
             x_proc_high = x_proc_high(:, 1:c);  
         //-        
-//        x_proc = x_proc_low*low_gain + x_proc_mid*middle_gain + x_proc_high*high_gain;
-//        x_proc = x_proc_low/max(x_proc_low) + x_proc_mid/max(x_proc_mid) + x_proc_high/max(x_proc_high);
-//        x_proc = x_proc_low*low_gain*(1/max(x_proc_low)) + x_proc_mid*middle_gain*(1/max(x_proc_mid)) + x_proc_high*high_gain*(1/max(x_proc_high));
+
         x_proc = x_proc_low + x_proc_mid + x_proc_high;
-//        x_proc = x_proc/max(abs(x_proc));
         
-//        wavwrite(x_proc, Fs, './audios/beth-symph-processed4.wav');
-        wavwrite(x_proc, Fs, './audios/example-processed.wav');
+        wavwrite(x_proc, Fs, './audios/beth-symph-processed.wav');
+//        wavwrite(x_proc, Fs, './audios/example-processed.wav');
 //        wavwrite(x_proc, Fs, './audios/sweep_inv-processed.wav');
 
     //------------------------------------------

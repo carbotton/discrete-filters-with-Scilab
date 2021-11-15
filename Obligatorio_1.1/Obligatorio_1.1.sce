@@ -8,9 +8,9 @@
     exec('./equalizer.sci');
     
     //----- SET GAIN -------//
-        low_gain = 1;
+        low_gain = 0.1;
         middle_gain = 1;
-        high_gain = 1;
+        high_gain = 0,4;
     //-----------------------
    
     disp_all_filters = %t; //true or false
