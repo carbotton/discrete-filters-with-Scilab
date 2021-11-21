@@ -69,9 +69,10 @@
         clf()
         subplot(2,2,1)
         xgrid()
-        plot2d(Fs*v_phi, abs(v_h_phi_x_in_mono), style=2)  //multiplico por Fs para escalar 
+        plot2d(Fs*v_phi, abs(v_h_phi_x_in_mono), style=9)  //multiplico por Fs para escalar 
         title('FFT: Audio de entrada','fontsize',3);
-        xlabel("f");
+        xlabel("f (Hz)");
+        ylabel("Módulo de la FFT");
         //solve incompatible sizes plot2d
            [r1,c1] = size(v_phi);
            [r2,c2] = size(v_h_phi_x_proc);
@@ -83,12 +84,13 @@
         xgrid()
         plot2d(Fs*v_phi, abs(v_h_phi_x_proc), style=5) 
         title('FFT: Audio procesado','fontsize',3);
-        xlabel("f");
+        xlabel("f (Hz)");
+        ylabel("Módulo de la FFT");
         subplot(2,2,3)
         xgrid()
-        plot(x_in_mono)
+        plot2d(x_in_mono, style=9)
         title('Audio entrada','fontsize',3)
         subplot(2,2,4)
         xgrid()
-        plot(x_proc)
+        plot2d(x_proc, style=5)
         title('Audio procesado','fontsize',3)

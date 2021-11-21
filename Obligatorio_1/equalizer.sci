@@ -5,7 +5,7 @@
 */
 
 function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
-    
+
     exec('./num_den_z.sci');
     L = 1;   
     delta_phi = 0.0001;   
@@ -18,7 +18,7 @@ function [transf] = equalizer(low_gain, middle_gain, high_gain, disp_filters)
     //------------------------------------------    
     
     phi_roots_low = [0.2 0.22 0.3 0.45]; 
-    phi_poles_low = [0.1 0.56; 0.16 0.9; 0.17 0.83];         
+    phi_poles_low = [0.1 0.56; 0.16 0.9; 0.17 0.83];  //[pole1 pole_gain1; pole2 pole_gain2]   
      
     [num_z_low, den_z_low] = num_den_z(phi_roots_low, phi_poles_low);
 
