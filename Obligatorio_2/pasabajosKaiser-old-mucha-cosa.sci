@@ -1,10 +1,7 @@
-/*
-    Recibe:
-    Retorna:
-*/
 
-function [] = pasabajosKaiser(f_M, f_p, f_s)
-
+    f_M = 44100;
+            f_p = 1333;          //frecuencia fin banda pasante
+            f_s = 1350;          //frecuencia inicio banda rechazo  
     // frecuencia fin de la banda pasante  
     phi_p = f_p/f_M;
 
@@ -131,4 +128,3 @@ function [] = pasabajosKaiser(f_M, f_p, f_s)
         plot2d([f_s,f_s],[0,delta_2],style=5,rect=area_a_ver)
         plot2d([f_M-f_s,f_M-f_s],[0,delta_2],style=5,rect=area_a_ver)
     //-
-endfunction
