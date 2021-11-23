@@ -3,10 +3,7 @@
     Retorna:
 */
 
-function [pasabajos] = pasabajosKaiser(f_M, f_p, f_s)
-
-    close(winsid());
-    clear; 
+function [] = pasabajosKaiser(f_M, f_p, f_s)
 
     // frecuencia fin de la banda pasante  
     phi_p = f_p/f_M;
