@@ -125,3 +125,39 @@ function graficarFiltro(f_M, filtro)
     xtitle('Módulo de la transferencia del filtro');     
         
 endfunction
+
+function graficarBandasAudio (audio_b1, audio_b2, audio_b3, titulo, num)
+
+    scf(num);
+    
+    subplot(1,3,1)
+    title("")
+    
+    subplot(1,3,2)
+    title(string(titulo), "fontsize",4.5)
+    
+    subplot(1,3,3)
+    title("")
+    
+    subplot(1,3,1)
+    xgrid();        
+    bajosFFT = fft([audio_b1,zeros(1,L-length(audio_b1))]);
+    [a,b] = size(bajosFFT) ;
+    vphi = (1/b)*[0:1:b-1];
+    plot2d(f_M*vphi,abs(bajosFFT),style=6);
+    
+    subplot(1,3,2)
+    xgrid();        
+    banda1FFT = fft([audio_b2,zeros(1,L-length(audio_b2))]);
+    [a,b] = size(banda1FFT) ;
+    vphi = (1/b)*[0:1:b-1];
+    plot2d(f_M*vphi,abs(banda1FFT),style=6);
+     
+    subplot(1,3,3)
+    xgrid();        
+    banda2FFT = fft([audio_b3,zeros(1,L-length(audio_b3))]);
+    [a,b] = size(banda2FFT) ;
+    vphi = (1/b)*[0:1:b-1];
+    plot2d(f_M*vphi,abs(banda2FFT),style=6); 
+         
+endfunction
