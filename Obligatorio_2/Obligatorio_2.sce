@@ -6,7 +6,7 @@
     
     //==========================
     // Definicion de frecuencias
-    // para todos los filtros
+    // para filtrar bandas
     //==========================
     
     f_M = 44100;             //frecuencia de muestreo
@@ -57,7 +57,7 @@
         audio_b2 = convol(b2, audio_mono);
         audio_b3 = convol(b3, audio_mono); 
         
-        graficarBandasAudio(audio_b1, audio_b2, audio_b3, 'Separación en bandas', 5);
+        //graficarBandasAudio(audio_b1, audio_b2, audio_b3, 'Separación en bandas', 5);
     //-
     
     //modulacion para trasladar bandas
@@ -126,8 +126,36 @@
             audio_b2_1_OK = convol(audio_b2_1_filtro, audio_b2_1);
             wavwrite(audio_b2_1_OK, Fs_audio, './questions_money_audio_b2_1_OK.wav');      
         
-            graficarBandasAudio(audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Me quedo con lo que me sirve de los bajos modulados", 4);
+            //graficarBandasAudio(audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Me quedo con lo que me sirve de las bandas moduladas", 4);
                     
         //-
+    //-
+    
+    //grafica de una sola banda para probar
+        scf(5)
+        xgrid();        
+        FFT = fft([audio_b1_3_OK,zeros(1,L-length(audio_b1_3_OK))]);
+        [a,b] = size(FFT) ;
+        vphi = (1/b)*[0:1:b-1];
+        plot2d(f_M*vphi,abs(FFT),style=6); 
+        scf(6)
+        xgrid();        
+        FFT = fft([audio_b1_3,zeros(1,L-length(audio_b1_3))]);
+        [a,b] = size(FFT) ;
+        vphi = (1/b)*[0:1:b-1];
+        plot2d(f_M*vphi,abs(FFT),style=6);
+        
+        scf(7)
+        xgrid();        
+        FFT = fft([audio_b3_2_OK,zeros(1,L-length(audio_b3_2_OK))]);
+        [a,b] = size(FFT) ;
+        vphi = (1/b)*[0:1:b-1];
+        plot2d(f_M*vphi,abs(FFT),style=6); 
+        scf(8)
+        xgrid();        
+        FFT = fft([audio_b3_2,zeros(1,L-length(audio_b3_2))]);
+        [a,b] = size(FFT) ;
+        vphi = (1/b)*[0:1:b-1];
+        plot2d(f_M*vphi,abs(FFT),style=6);                   
     //-
     
