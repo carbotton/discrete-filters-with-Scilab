@@ -1,52 +1,58 @@
 
     xdel(winsid());
     
-    exec('./filtros.sci');
     exec('./audioWav.sci');
+    exec('./filtros.sci');
     
-    //filtros para determinar las 3 bandas
-               
-        f_M = 44100;             //frecuencia de muestreo
+    //==========================
+    // Definicion de frecuencias
+    // para todos los filtros
+    //==========================
     
-        //pasa bajos
-            f_p = 1333;          //frecuencia fin banda pasante
-            f_s = 1350;          //frecuencia inicio banda rechazo                  
-            pasabajos = pasabajosKaiser(f_M, f_p, f_s);      
-        //-
-        
-        //pasa banda 1
-            f_s11 = 1350;           //izq
-            f_p11 = 1400;           //izq
-            f_p21 = 2666;           //der
-            f_s21 = 2680;           //der  
-            pasabanda1 = pasaBandaKaiser(f_M, f_p11, f_p21, f_s11, f_s21);
-        //-
-        
-        //pasa banda 2
-            f_s12 = 2700;           //frecuencia fin banda pasante izq
-            f_p12 = 2750;           //frecuencia inicio banda rechazo izq
-            f_p22 = 4000;           //frecuencia fin banda pasante der
-            f_s22 = 4050;           //frecuencia inicio banda rechazo der  
-            pasabanda2 = pasaBandaKaiser(f_M, f_p12, f_p22, f_s12, f_s22);
-        //-            
-        
+    f_M = 44100;             //frecuencia de muestreo
+    
+    //primera banda
+        f_p = 1333;          //frecuencia fin banda pasante
+        f_s = 1350;          //frecuencia inicio banda rechazo                  
+        b1 = pasabajosKaiser(f_M, f_p, f_s);   
     //-
+
+    //segunda banda
+        f_s1_b2 = 1350;           //fin banda de rechazo izq
+        f_p1_b2 = 1400;           //comienzo banda pasante
+        f_p2_b2 = 2666;           //fin banda pasante
+        f_s2_b2 = 2680;           //comienzo banda rechazo der
+        b2 = pasaBandaKaiser(f_M, f_p1_b2, f_p2_b2, f_s1_b2, f_s2_b2);
+    //-
+        
+    //tercera banda
+        f_s1_b3 = 2700;           //fin banda de rechazo izq
+        f_p1_b3 = 2750;           //comienzo banda pasante
+        f_p2_b3 = 4000;           //fin banda pasante
+        f_s2_b3 = 4050;           //comienzo banda rechazo der 
+        b3 = pasaBandaKaiser(f_M, f_p1_b3, f_p2_b3, f_s1_b3, f_s2_b3);
+    //- 
+               
+    //    graficarFiltros(f_M, 1000, b1, b2, b3);
     
-//    graficarFiltros(f_M, 1000, pasabajos, pasabanda1, pasabanda2);
-      
+    //========================== FIN DEFINICION PARAMETROS   
+    
+    
+    //====================================================
+       
     //señal de audio    
         path = './questions_money.wav';
     //        [audio_in, fft_audio_in] = audioWav(path, %f);
-        [x_in_2c, Fs, bits] = wavread(path);
-        [canales,L] = size(x_in_2c);
-        x_in = x_in_2c(1,:);                       
+        [audio_in, Fs_audio, bits] = wavread(path);
+        [canales,L] = size(audio_in);
+        audio_mono = audio_in(1,:);                       
     //-
     
     //division en bandas de la señal de audio  
           
-        bajos = convol(pasabajos, x_in);
-        banda1 = convol(pasabanda1, x_in);
-        banda2 = convol(pasabanda2, x_in); 
+        bajos = convol(b1, x_in);
+        banda1 = convol(pasabanda1, audio_mono);
+        banda2 = convol(pasabanda2, audio_mono); 
         
         //graficas FFT de cada banda
             scf(0);
@@ -86,8 +92,8 @@
         vphi = (1/L)*[0:1:L-1];
         v_f = f_M*v_phi;
 
-        //bajos a banda 2
-            f_modBA = (f_p22+f_p12)/2;
+        //b1 a b3
+            f_modBA = (f_p2_b3+f_p1_b3)/2;
             phi_modBA = f_modBA/f_M;
                     
             nPB = 0: (length(bajos)-1);    
@@ -95,8 +101,8 @@
             bajosA = bajos.*cosPB;            
         //-
         
-        //banda 2 a banda 1
-            f_mod21 = (f_p21+f_p11)/2;
+        //b3 a b2
+            f_mod21 = (f_p2_b2+f_p1_b2)/2;
             phi_mod21 = f_mod21/f_M;
                     
             nB1 = 0: (length(banda1)-1);    
@@ -145,10 +151,10 @@
         
         //aplico filtros
             bajosAOK = convol(bajosmodfiltro, bajosA);
-            wavwrite(bajosA, Fs, './questions_money_bajosAOK.wav');
+            wavwrite(bajosA, Fs_audio, './questions_money_bajosAOK.wav');
             
             banda21OK = convol(banda2modfiltro, banda21);
-            wavwrite(banda21OK, Fs, './questions_money_banda21OK.wav');
+            wavwrite(banda21OK, Fs_audio, './questions_money_banda21OK.wav');
         
             scf(3)
             xgrid();        

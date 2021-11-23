@@ -112,42 +112,16 @@ function [pasabanda] = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2)
 
 endfunction
 
-function graficarFiltros(f_M, f_mod, filtroPB, filtroPM1, filtroPM2)
+function graficarFiltro(f_M, filtro)
     
     L= 2**16;
     vphi = (1/L)*[0:1:L-1];
-    v_f = f_M*v_phi;
     
-    filtroPB_fft = fft([filtroPB,zeros(1,L-length(filtroPB))]);    
-    filtroPM1_fft = fft([filtroPM1,zeros(1,L-length(filtroPM1))]);
-    filtroPM2_fft = fft([filtroPM2,zeros(1,L-length(filtroPM2))]);
-    
+    filtroFFT = fft([filtro,zeros(1,L-length(filtro))]);
+        
     scf(1);
     xgrid();
-    plot2d(f_M*vphi,abs(filtroPB_fft),style=6);
-    plot2d(f_M*vphi,abs(filtroPM1_fft),style=5);
-    plot2d(f_M*vphi,abs(filtroPM2_fft),style=11);
-    xtitle('Módulo de la transferencia de los filtros');  
-    
-    phi_mod = f_mod/f_M;
-    
-    nPB = 0: (length(filtroPB)-1);    
-    cosPB = cos(2*%pi*nPB*phi_mod); 
-    nPM1 = 0: (length(filtroPM1)-1);    
-    cosPM1 = cos(2*%pi*nPM1*phi_mod);     
-    nPM2 = 0: (length(filtroPM2)-1);    
-    cosPM2 = cos(2*%pi*nPM2*phi_mod);
-        
-    filtroPB_cos = fft([filtroPB.*cosPB,zeros(1,L-length(filtroPB))]);
-    filtroPM1_cos = fft([filtroPM1.*cosPM1,zeros(1,L-length(filtroPM1))]);
-    filtroPM2_cos = fft([filtroPM2.*cosPM2,zeros(1,L-length(filtroPM2))]);
-    
-    scf(2);
-    clf();
-    xgrid();
-    plot2d(v_f,abs(filtroPB_cos),style=6);
-    plot2d(v_f,abs(filtroPM1_cos),style=5);
-    plot2d(v_f,abs(filtroPM2_cos),style=11);
-    xtitle('(MODULADO) Módulo de la transferencia de los filtros');     
+    plot2d(f_M*vphi,abs(filtroFFT),style=6);
+    xtitle('Módulo de la transferencia del filtro');     
         
 endfunction
