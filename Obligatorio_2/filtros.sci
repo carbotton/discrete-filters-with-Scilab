@@ -56,6 +56,7 @@ function [filtro] = pasabajosKaiser(f_M, f_p, f_s)
 
     v_h_phiK = fft([v_hnK,zeros(1,L-length(v_hnK))]);
     
+    //retorno
     filtro = v_hnK;    
 
 endfunction
@@ -106,6 +107,7 @@ function [pasabanda] = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2)
 
     vMn = hbpi.*wK;
     
+    //retorno
     pasabanda = vMn;    
 
 endfunction

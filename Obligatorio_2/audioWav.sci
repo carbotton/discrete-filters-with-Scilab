@@ -23,6 +23,4 @@ function [x_in, fft_audio_in] = audioWav(path, graficar)
         title("FFT audio IN (phi)");    
     end
     
-//    wavwrite(x_in, Fs, './questions_money_proc.wav');
-    
 endfunction
