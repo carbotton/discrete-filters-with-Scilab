@@ -165,13 +165,13 @@ function graficarBandasAudio (audio_b1, audio_b2, audio_b3, titulo, num)
     vphi = (1/b)*[0:1:b-1];
     vphi = (1/b1)*[0:1:b1-1];
     xgrid()
-    plot2d(f_M*vphi,abs(banda1FFT),style=6);
+//    plot2d(f_M*vphi,abs(banda1FFT),style=6);
 //    vphi = (1/b2)*[0:1:b2-1];
 //    plot2d(f_M*vphi,abs(banda2FFT),style=1);
-//    vphi = (1/b3)*[0:1:b3-1];
-//    plot2d(f_M*vphi,abs(banda3FFT),style=5);
+    vphi = (1/b3)*[0:1:b3-1];
+    plot2d(f_M*vphi,abs(banda3FFT),style=5);
 //    legend('banda1', 'banda2', 'banda3')
-    legend("banda1")
+    legend("banda3")
     title(string(titulo), "fontsize",4.5)
     
 endfunction
