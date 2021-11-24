@@ -1,5 +1,5 @@
 
-function codificar(pathIN, pathCOD)
+function codificar(pathIN, pathCOD, num)
 
     xdel(winsid());
     
@@ -39,11 +39,12 @@ function codificar(pathIN, pathCOD)
     
     
     //====================================================
+ 
     
     //graficar filtros b1, b2 y b3
-        graficarFiltro(f_M, b1, 'Filtros para las bandas', 0, 6, 2**16);
-        graficarFiltro(f_M, b2, 'Filtros para las bandas', 0, 1, 2**16);
-        graficarFiltro(f_M, b3, 'Filtros para las bandas', 0, 13, 2**16);
+        graficarFiltro(f_M, b1, '', 0, 6, 2**16);
+        graficarFiltro(f_M, b2, '', 0, 1, 2**16);
+        graficarFiltro(f_M, b3, 'Filtros para las bandas '+string(pathIN), num, 13, 2**16);
     //-
     
     //anchos de banda
@@ -53,11 +54,10 @@ function codificar(pathIN, pathCOD)
     //-
       
     //señal de audio    
-        //graficarAudio(path, "FFT audio IN en Hertz", 4);
+        //graficarAudio(path, "FFT audio IN en Hertz", num+1);
         [audio_in, Fs_audio, bits] = wavread(pathIN);
         [canales,L] = size(audio_in);
-        audio_mono = audio_in(1,:);
-        disp(string(length(audio_mono)))                       
+        audio_mono = audio_in(1,:);                      
     //-
     
     //division en bandas de la señal de audio          
@@ -65,7 +65,7 @@ function codificar(pathIN, pathCOD)
         audio_b2 = convol(b2, audio_mono);
         audio_b3 = convol(b3, audio_mono); 
         
-        graficarBandasAudio(f_M, audio_b1, audio_b2, audio_b3, 'Separación en bandas', 1, 6, 1, 13);
+        graficarBandasAudio(f_M, audio_b1, audio_b2, audio_b3, 'Separación en bandas de '+string(pathIN), num+2, 6, 1, 13);
         legend("banda 1", "banda 2", "banda 3");
     //-
     
@@ -98,7 +98,7 @@ function codificar(pathIN, pathCOD)
             audio_b2_1 = audio_b2.*cos2;                    
         //-
         
-        graficarBandasAudio(f_M, audio_b1_3, audio_b3_2, audio_b2_1, 'Modulación', 2, 6, 1, 13);
+        graficarBandasAudio(f_M, audio_b1_3, audio_b3_2, audio_b2_1, 'Modulación', num+3, 6, 1, 13);
         legend("banda 1", "banda 2", "banda 3");
                
     //-
@@ -132,7 +132,7 @@ function codificar(pathIN, pathCOD)
             audio_b3_2_OK = convol(audio_b3_2_filtro, audio_b3_2);                       
             audio_b2_1_OK = convol(audio_b2_1_filtro, audio_b2_1);              
         
-            graficarBandasAudio(f_M, audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Modulación y filtrado", 3, 6, 13, 1);
+            graficarBandasAudio(f_M, audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Modulación y filtrado", num+4, 6, 13, 1);
             legend("banda 1 -> banda 3", "banda 3 -> banda 2", "banda 2 -> banda 1")
                 
         //-
@@ -141,12 +141,15 @@ function codificar(pathIN, pathCOD)
     //salida del CODIFICADOR
         audio_codificado = audio_b1_3_OK + audio_b3_2_OK + audio_b2_1_OK;
         wavwrite(audio_codificado, Fs_audio, pathCOD);
-        //graficarAudio('./questions_money_audio_codificado.wav', "FFT audio OUT en Hertz", 5);     
+        //graficarAudio('./questions_money_audio_codificado.wav', "FFT audio OUT en Hertz", num+5);     
     //-
     
 endfunction
 
-function decodificar(pathCOD, pathOUT)
-    codificar(pathCOD, pathOUT);
-    codificar(pathOUT, pathOUT);
+function decodificar(pathCOD, pathOUT, num)
+endfunction
+
+function decodificar_con_cod(pathCOD, pathOUT, num)
+    codificar(pathCOD, pathOUT, num);
+    codificar(pathOUT, pathOUT, num+1);
 endfunction
