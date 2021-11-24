@@ -14,23 +14,23 @@ function codificar(pathIN, pathCOD)
     f_M = 44100;             //frecuencia de muestreo
     
     //primera banda
-        f_p = 1323;          //frecuencia fin banda pasante
+        f_p = 1133;          //frecuencia fin banda pasante
         f_s = 1333;          //frecuencia inicio banda rechazo               
         b1 = pasabajosKaiser(f_M, f_p, f_s);   
     //-
 
     //segunda banda
         f_s1_b2 = 1333;           //fin banda de rechazo izq
-        f_p1_b2 = 1343;           //comienzo banda pasante
-        f_p2_b2 = 2656;           //fin banda pasante
+        f_p1_b2 = 1533;           //comienzo banda pasante
+        f_p2_b2 = 2466;           //fin banda pasante
         f_s2_b2 = 2666;           //comienzo banda rechazo der
         b2 = pasaBandaKaiser(f_M, f_p1_b2, f_p2_b2, f_s1_b2, f_s2_b2);
     //-
         
     //tercera banda
         f_s1_b3 = 2667;           //fin banda de rechazo izq
-        f_p1_b3 = 2677;           //comienzo banda pasante
-        f_p2_b3 = 3990;           //fin banda pasante
+        f_p1_b3 = 2867;           //comienzo banda pasante
+        f_p2_b3 = 3800;           //fin banda pasante
         f_s2_b3 = 4000;           //comienzo banda rechazo der 
         b3 = pasaBandaKaiser(f_M, f_p1_b3, f_p2_b3, f_s1_b3, f_s2_b3);
     //- 
@@ -56,7 +56,8 @@ function codificar(pathIN, pathCOD)
         //graficarAudioIn(path, "FFT audio IN en Hertz", 4);
         [audio_in, Fs_audio, bits] = wavread(pathIN);
         [canales,L] = size(audio_in);
-        audio_mono = audio_in(1,:);                       
+        audio_mono = audio_in(1,:);
+        disp(string(length(audio_mono)))                       
     //-
     
     //division en bandas de la señal de audio          
@@ -81,7 +82,6 @@ function codificar(pathIN, pathCOD)
         
         //b3 a b2
             f_mod3_2 = f_s1_b3-f_s1_b2;
-            disp(f_mod3_2)
             phi_mod3_2 = f_mod3_2/f_M;
                     
             n3 = 0: (length(audio_b3)-1);    
@@ -123,10 +123,7 @@ function codificar(pathIN, pathCOD)
             f_p1 = f_s1+10;                  
             f_s2 = bw_b2;
             f_p2 = f_s2-10;            
-            audio_b2_1_filtro = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2);     
-            graficarFiltro(f_M, audio_b1_3_filtro, 'Filtros para las modulaciones', 0, 6, 2**16);  
-            graficarFiltro(f_M, audio_b3_2_filtro, 'Filtros para las modulaciones', 0, 6, 2**16); 
-            graficarFiltro(f_M, audio_b2_1_filtro, 'Filtros para las modulaciones', 0, 6, 2**16);                           
+            audio_b2_1_filtro = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2);                                
         //-
         
         //aplico filtros
