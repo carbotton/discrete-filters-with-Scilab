@@ -1,5 +1,5 @@
 
-function graficarAudioIn(path, titulo)
+function graficarAudioIn(path, titulo, num)
     
     [x_in_2c, Fs, bits] = wavread(path);
     x_in = x_in_2c(1,:);
@@ -8,7 +8,7 @@ function graficarAudioIn(path, titulo)
     v_phi = (1/L)*[0:1:L-1];
     fft_audio_in = fft(x_in);
    
-    scf(8);
+    scf(num);
     clf();
     xgrid();
     Fs = 44100;
