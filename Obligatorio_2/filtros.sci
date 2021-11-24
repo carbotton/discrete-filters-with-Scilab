@@ -151,23 +151,27 @@ function graficarBandasAudio (audio_b1, audio_b2, audio_b3, titulo, num)
     banda2FFT = fft([audio_b2,zeros(1,L-length(audio_b2))]);
     [a2,b2] = size(banda2FFT) ;
     vphi = (1/b2)*[0:1:b2-1];
-    plot2d(f_M*vphi,abs(banda2FFT),style=6);
+    plot2d(f_M*vphi,abs(banda2FFT),style=1);
      
     subplot(1,3,3)
     xgrid();        
     banda3FFT = fft([audio_b3,zeros(1,L-length(audio_b3))]);
     [a3,b3] = size(banda3FFT) ;
     vphi = (1/b3)*[0:1:b3-1];
-    plot2d(f_M*vphi,abs(banda3FFT),style=6); 
+    plot2d(f_M*vphi,abs(banda3FFT),style=5); 
 
     scf(num+1)         
     b = min(b1,b2,b3);
     vphi = (1/b)*[0:1:b-1];
     vphi = (1/b1)*[0:1:b1-1];
+    xgrid()
     plot2d(f_M*vphi,abs(banda1FFT),style=6);
-    vphi = (1/b2)*[0:1:b2-1];
-    plot2d(f_M*vphi,abs(banda2FFT),style=1);
-    vphi = (1/b3)*[0:1:b3-1];
-    plot2d(f_M*vphi,abs(banda3FFT),style=5);
-    legend('banda1', 'banda2', 'banda3')
+//    vphi = (1/b2)*[0:1:b2-1];
+//    plot2d(f_M*vphi,abs(banda2FFT),style=1);
+//    vphi = (1/b3)*[0:1:b3-1];
+//    plot2d(f_M*vphi,abs(banda3FFT),style=5);
+//    legend('banda1', 'banda2', 'banda3')
+    legend("banda1")
+    title(string(titulo), "fontsize",4.5)
+    
 endfunction
