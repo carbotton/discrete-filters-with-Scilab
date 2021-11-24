@@ -1,5 +1,5 @@
 
-function graficarAudioIn(path, titulo, num)
+function graficarAudio(path, titulo, num)
     
     [x_in_2c, Fs, bits] = wavread(path);
     x_in = x_in_2c(1,:);

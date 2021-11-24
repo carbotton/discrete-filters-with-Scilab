@@ -135,6 +135,14 @@ function graficarFiltro(f_M, filtro, titulo, num, col, L)
         
 endfunction
 
+/*
+Recibe: f_M frecuencia de muestreo
+        audio_b1, _b2 y _b3 son los trozos de audio a graficar (en el tiempo)
+        titulo para el plot
+        numero de ventana para el plot
+        color para el plot de cada trozo
+*/
+
 function graficarBandasAudio (f_M, audio_b1, audio_b2, audio_b3, titulo, num, col1, col2, col3)
     
     [a,L1] = size(audio_b1);

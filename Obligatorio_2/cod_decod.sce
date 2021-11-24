@@ -53,7 +53,7 @@ function codificar(pathIN, pathCOD)
     //-
       
     //señal de audio    
-        //graficarAudioIn(path, "FFT audio IN en Hertz", 4);
+        //graficarAudio(path, "FFT audio IN en Hertz", 4);
         [audio_in, Fs_audio, bits] = wavread(pathIN);
         [canales,L] = size(audio_in);
         audio_mono = audio_in(1,:);
@@ -128,14 +128,9 @@ function codificar(pathIN, pathCOD)
         
         //aplico filtros
         
-            audio_b1_3_OK = convol(audio_b1_3_filtro, audio_b1_3);
-            wavwrite(audio_b1_3_OK, Fs_audio, './questions_money_audio_b1_3_OK.wav');
-                        
-            audio_b3_2_OK = convol(audio_b3_2_filtro, audio_b3_2);
-            wavwrite(audio_b3_2_OK, Fs_audio, './questions_money_audio_b3_2_OK.wav');
-                        
-            audio_b2_1_OK = convol(audio_b2_1_filtro, audio_b2_1);
-            wavwrite(audio_b2_1_OK, Fs_audio, './questions_money_audio_b2_1_OK.wav');                
+            audio_b1_3_OK = convol(audio_b1_3_filtro, audio_b1_3);                        
+            audio_b3_2_OK = convol(audio_b3_2_filtro, audio_b3_2);                       
+            audio_b2_1_OK = convol(audio_b2_1_filtro, audio_b2_1);              
         
             graficarBandasAudio(f_M, audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Modulación y filtrado", 3, 6, 13, 1);
             legend("banda 1 -> banda 3", "banda 3 -> banda 2", "banda 2 -> banda 1")
@@ -145,8 +140,8 @@ function codificar(pathIN, pathCOD)
     
     //salida del CODIFICADOR
         audio_codificado = audio_b1_3_OK + audio_b3_2_OK + audio_b2_1_OK;
-        wavwrite(audio_codificado, Fs_audio, pathCOD)
-        //graficarAudioIn('./questions_money_audio_codificado.wav', "FFT audio OUT en Hertz", 5);     
+        wavwrite(audio_codificado, Fs_audio, pathCOD);
+        //graficarAudio('./questions_money_audio_codificado.wav', "FFT audio OUT en Hertz", 5);     
     //-
     
 endfunction
