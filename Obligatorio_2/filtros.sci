@@ -2,7 +2,7 @@
 Recibe: f_M frecuencia de muestreo
         f_p frecuencia fin banda pasante
         f_s frecuencia inicio banda rechazo
-Retorna: filtro FIR
+Retorna: filtro FIR pasabajos usando ventana de Kaiser
 */
 
 function [filtro] = pasabajosKaiser(f_M, f_p, f_s)
@@ -63,10 +63,11 @@ endfunction
 
 /*
 Recibe: f_M frecuencia de muestreo
-        f_p1 
-        f_s1 
-        ...
-Retorna: filtro FIR
+        f_p1 frecuencia comienzo banda pasante
+        f_s1 frecuencia fin banda de rechazo izq 
+        f_p2 frecuencia fin banda pasante
+        f_s2 frecuencia inicio banda de rechazo der
+Retorna: filtro FIR pasabanda usando ventana de Kaiser
 */
 
 function [pasabanda] = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2)
@@ -112,66 +113,35 @@ function [pasabanda] = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2)
 
 endfunction
 
-function graficarFiltro(f_M, filtro)
+/*
+Recibe: f_M frecuencia de muestreo
+        filtro en el dominio del tiempo
+        titulo para el plot
+        numero de ventana para el plot
+        color para el plot
+        largo del vector de puntos
+*/
+
+function graficarFiltro(f_M, filtro, titulo, num, col, L)
     
-    L= 2**16;
     vphi = (1/L)*[0:1:L-1];
     
     filtroFFT = fft([filtro,zeros(1,L-length(filtro))]);
         
-    scf(1);
+    scf(num);
     xgrid();
-    plot2d(f_M*vphi,abs(filtroFFT),style=6);
-    xtitle('Módulo de la transferencia del filtro');     
+    plot2d(f_M*vphi,abs(filtroFFT),style=col);
+    title(titulo, "fontsize",4.5);     
         
 endfunction
 
-function graficarBandasAudio (audio_b1, audio_b2, audio_b3, titulo, num)
-
-    scf(num);
+function graficarBandasAudio (f_M, audio_b1, audio_b2, audio_b3, titulo, num, col1, col2, col3)
     
-    subplot(1,3,1)
-    title("")
-    
-    subplot(1,3,2)
-    title(string(titulo), "fontsize",4.5)
-    
-    subplot(1,3,3)
-    title("")
-    
-    subplot(1,3,1)
-    xgrid();        
-    banda1FFT = fft([audio_b1,zeros(1,L-length(audio_b1))]);
-    [a1,b1] = size(banda1FFT) ;
-    vphi = (1/b1)*[0:1:b1-1];
-    plot2d(f_M*vphi,abs(banda1FFT),style=6);
-    
-    subplot(1,3,2)
-    xgrid();        
-    banda2FFT = fft([audio_b2,zeros(1,L-length(audio_b2))]);
-    [a2,b2] = size(banda2FFT) ;
-    vphi = (1/b2)*[0:1:b2-1];
-    plot2d(f_M*vphi,abs(banda2FFT),style=1);
-     
-    subplot(1,3,3)
-    xgrid();        
-    banda3FFT = fft([audio_b3,zeros(1,L-length(audio_b3))]);
-    [a3,b3] = size(banda3FFT) ;
-    vphi = (1/b3)*[0:1:b3-1];
-    plot2d(f_M*vphi,abs(banda3FFT),style=5); 
-
-    scf(num+1)         
-    b = min(b1,b2,b3);
-    vphi = (1/b)*[0:1:b-1];
-    vphi = (1/b1)*[0:1:b1-1];
-    xgrid()
-//    plot2d(f_M*vphi,abs(banda1FFT),style=6);
-//    vphi = (1/b2)*[0:1:b2-1];
-//    plot2d(f_M*vphi,abs(banda2FFT),style=1);
-    vphi = (1/b3)*[0:1:b3-1];
-    plot2d(f_M*vphi,abs(banda3FFT),style=5);
-//    legend('banda1', 'banda2', 'banda3')
-    legend("banda3")
-    title(string(titulo), "fontsize",4.5)
+    [a,L1] = size(audio_b1);
+    [a,L2] = size(audio_b2);
+    [a,L3] = size(audio_b3);
+    graficarFiltro(f_M, audio_b1, "", num, col1, L1);
+    graficarFiltro(f_M, audio_b2, "", num, col2, L2);
+    graficarFiltro(f_M, audio_b3, titulo, num, col3, L3);
     
 endfunction

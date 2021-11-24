@@ -1,5 +1,5 @@
 
-function graficarAudioIn(path)
+function graficarAudioIn(path, titulo)
     
     [x_in_2c, Fs, bits] = wavread(path);
     x_in = x_in_2c(1,:);
@@ -13,11 +13,6 @@ function graficarAudioIn(path)
     xgrid();
     Fs = 44100;
     plot2d(v_phi*Fs, abs(fft_audio_in), style=9);
-    title("FFT audio IN en Hertz");
-    
-    scf(7);
-    clf();
-    xgrid();
-    plot2d(v_phi, abs(fft_audio_in), style=9);
-    
+    title(titulo);
+        
 endfunction

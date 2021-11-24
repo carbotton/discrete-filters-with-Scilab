@@ -12,23 +12,23 @@
     f_M = 44100;             //frecuencia de muestreo
     
     //primera banda
-        f_p = 1283;          //frecuencia fin banda pasante
+        f_p = 1323;          //frecuencia fin banda pasante
         f_s = 1333;          //frecuencia inicio banda rechazo               
         b1 = pasabajosKaiser(f_M, f_p, f_s);   
     //-
 
     //segunda banda
         f_s1_b2 = 1333;           //fin banda de rechazo izq
-        f_p1_b2 = 1383;           //comienzo banda pasante
-        f_p2_b2 = 2616;           //fin banda pasante
+        f_p1_b2 = 1343;           //comienzo banda pasante
+        f_p2_b2 = 2656;           //fin banda pasante
         f_s2_b2 = 2666;           //comienzo banda rechazo der
         b2 = pasaBandaKaiser(f_M, f_p1_b2, f_p2_b2, f_s1_b2, f_s2_b2);
     //-
         
     //tercera banda
         f_s1_b3 = 2667;           //fin banda de rechazo izq
-        f_p1_b3 = 2716;           //comienzo banda pasante
-        f_p2_b3 = 3950;           //fin banda pasante
+        f_p1_b3 = 2677;           //comienzo banda pasante
+        f_p2_b3 = 3990;           //fin banda pasante
         f_s2_b3 = 4000;           //comienzo banda rechazo der 
         b3 = pasaBandaKaiser(f_M, f_p1_b3, f_p2_b3, f_s1_b3, f_s2_b3);
     //- 
@@ -39,24 +39,23 @@
     //====================================================
     
     //graficar filtros b1, b2 y b3
-    //        graficarFiltro(f_M, b1);
-    //        graficarFiltro(f_M, b2);
-    //        graficarFiltro(f_M, b3);
+//        graficarFiltro(f_M, b1, 'Módulo de la transferencia del filtro para la banda b1', 0, 6, 2**16);
+//        graficarFiltro(f_M, b2, 'Módulo de la transferencia del filtro para la banda b2', 1, 1, 2**16);
+//        graficarFiltro(f_M, b3, 'Módulo de la transferencia del filtro para la banda b3', 2, 13,2**16);
+        graficarFiltro(f_M, b1, 'Filtros para las bandas', 0, 6, 2**16);
+        graficarFiltro(f_M, b2, 'Filtros para las bandas', 0, 1, 2**16);
+        graficarFiltro(f_M, b3, 'Filtros para las bandas', 0, 13, 2**16);
     //-
     
     //anchos de banda
-    bw_b1 = f_s;
-    bw_b2 = f_s2_b2-f_s1_b2;
-    bw_b3 = f_s2_b3-f_s1_b3;
-    //    disp("anchos de banda")
-    //    disp("b1 = "+string(f_s))
-    //    disp("b2 = "+string(f_s2_b2-f_s1_b2))
-    //    disp("b3 = "+string(f_s2_b3-f_s1_b3))    
+        bw_b1 = f_s;
+        bw_b2 = f_s2_b2-f_s1_b2;
+        bw_b3 = f_s2_b3-f_s1_b3;   
     //-
       
     //señal de audio    
         path = './questions_money.wav';
-        //graficarAudioIn(path);
+//        graficarAudioIn(path, "FFT audio IN en Hertz");
         [audio_in, Fs_audio, bits] = wavread(path);
         [canales,L] = size(audio_in);
         audio_mono = audio_in(1,:);                       
@@ -67,7 +66,8 @@
         audio_b2 = convol(b2, audio_mono);
         audio_b3 = convol(b3, audio_mono); 
         
-        //graficarBandasAudio(audio_b1, audio_b2, audio_b3, 'Separación en bandas', 5);
+        graficarBandasAudio(f_M, audio_b1, audio_b2, audio_b3, 'Separación en bandas', 1, 6, 1, 13);
+        legend("banda 1", "banda 2", "banda 3");
     //-
     
     //modulacion para trasladar bandas
@@ -78,14 +78,7 @@
                     
             n1 = 0: (length(audio_b1)-1);    
             cos1 = 2*cos(2*%pi*n1*phi_mod1_3);       
-            audio_b1_3 = audio_b1.*cos1;
-            
-            scf(1)
-            xgrid();        
-            FFT = fft([audio_b1_3,zeros(1,L-length(audio_b1_3))]);
-            [a2,b2] = size(FFT) ;
-            vphi = (1/b2)*[0:1:b2-1];
-            plot2d(f_M*vphi,abs(FFT),style=1)                    
+            audio_b1_3 = audio_b1.*cos1;                    
         //-
         
         //b3 a b2
@@ -107,7 +100,8 @@
             audio_b2_1 = audio_b2.*cos2;                    
         //-
         
-        //graficarBandasAudio(audio_b1_3, audio_b3_2, audio_b2_1, 'Mod', 3);
+        graficarBandasAudio(f_M, audio_b1_3, audio_b3_2, audio_b2_1, 'Modulación', 2, 6, 1, 13);
+        legend("banda 1", "banda 2", "banda 3");
                
     //-
     
@@ -138,19 +132,20 @@
         //aplico filtros
         
             audio_b1_3_OK = convol(audio_b1_3_filtro, audio_b1_3);
-            wavwrite(audio_b1_3_OK, Fs_audio, './questions_money_audio_b1_3_OK.wav');            
+            wavwrite(audio_b1_3_OK, Fs_audio, './questions_money_audio_b1_3_OK.wav');
+                        
             audio_b3_2_OK = convol(audio_b3_2_filtro, audio_b3_2);
-            wavwrite(audio_b3_2_OK, Fs_audio, './questions_money_audio_b3_2_OK.wav');            
+            wavwrite(audio_b3_2_OK, Fs_audio, './questions_money_audio_b3_2_OK.wav');
+                        
             audio_b2_1_OK = convol(audio_b2_1_filtro, audio_b2_1);
-            wavwrite(audio_b2_1_OK, Fs_audio, './questions_money_audio_b2_1_OK.wav');
-            scf(2)
-            xgrid();        
-            FFT = fft([audio_b1_3_OK,zeros(1,L-length(audio_b1_3_OK))]);
-            [a2,b2] = size(FFT) ;
-            vphi = (1/b2)*[0:1:b2-1];
-            plot2d(f_M*vphi,abs(FFT),style=1)                  
+            wavwrite(audio_b2_1_OK, Fs_audio, './questions_money_audio_b2_1_OK.wav');                
         
-            //graficarBandasAudio(audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Mod y filt", 0);
-                    
+            graficarBandasAudio(f_M, audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Modulación y filtrado", 3, 6, 13, 1);
+            legend("banda 1 -> banda 3", "banda 3 -> banda 2", "banda 2 -> banda 1")
+                
         //-
+    //-
+    
+    //salida del CODIFICADOR
+            //        graficarAudioIn(path, "FFT audio OUT en Hertz");     
     //-
