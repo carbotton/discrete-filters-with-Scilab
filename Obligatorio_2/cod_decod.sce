@@ -12,26 +12,27 @@ function codificar(pathIN, pathCOD, num)
     //==========================
     
     f_M = 44100;             //frecuencia de muestreo
+    delta_phi = 200;         //phis-phip
     
-    //primera banda
-        f_p = 1133;          //frecuencia fin banda pasante
-        f_s = 1333;          //frecuencia inicio banda rechazo               
+    //primera banda        
+        f_s = 1333;             //frecuencia inicio banda rechazo
+        f_p = f_s-delta_phi;   //frecuencia fin banda pasante             
         b1 = pasabajosKaiser(f_M, f_p, f_s);   
     //-
 
     //segunda banda
-        f_s1_b2 = 1333;           //fin banda de rechazo izq
-        f_p1_b2 = 1533;           //comienzo banda pasante
-        f_p2_b2 = 2466;           //fin banda pasante
-        f_s2_b2 = 2666;           //comienzo banda rechazo der
+        f_s1_b2 = 1333;                 //fin banda de rechazo izq
+        f_p1_b2 = f_s1_b2+delta_phi;    //comienzo banda pasante
+        f_s2_b2 = 2666;                 //comienzo banda rechazo der
+        f_p2_b2 = f_s2_b2-delta_phi;    //fin banda pasante
         b2 = pasaBandaKaiser(f_M, f_p1_b2, f_p2_b2, f_s1_b2, f_s2_b2);
     //-
         
     //tercera banda
-        f_s1_b3 = 2667;           //fin banda de rechazo izq
-        f_p1_b3 = 2867;           //comienzo banda pasante
-        f_p2_b3 = 3800;           //fin banda pasante
-        f_s2_b3 = 4000;           //comienzo banda rechazo der 
+        f_s1_b3 = 2667;                 //fin banda de rechazo izq
+        f_p1_b3 = f_s1_b3+delta_phi;    //comienzo banda pasante
+        f_s2_b3 = 4000;                 //comienzo banda rechazo der 
+        f_p2_b3 = f_s2_b3-delta_phi;    //fin banda pasante        
         b3 = pasaBandaKaiser(f_M, f_p1_b3, f_p2_b3, f_s1_b3, f_s2_b3);
     //- 
     
@@ -51,13 +52,7 @@ function codificar(pathIN, pathCOD, num)
         graficarFiltro(f_M, b2, '', num, 1, 2**16);
         graficarFiltro(f_M, b3, '(COD) Filtros para las bandas', num, 13, 2**16);
     //-
-    
-    //anchos de banda
-        bw_b1 = f_s;
-        bw_b2 = f_s2_b2-f_s1_b2;
-        bw_b3 = f_s2_b3-f_s1_b3;   
-    //-
-      
+           
     //señal de audio    
         graficarAudio(pathIN, "FFT audio ORIGINAL en Hertz", num+1);
         [audio_in, Fs_audio, bits] = wavread(pathIN);

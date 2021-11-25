@@ -11,4 +11,3 @@
     
     codificar(pathIN, pathCOD, 1);
     decodificar(pathCOD, pathOUT, 20);
-    
