@@ -1,10 +1,10 @@
-
-function codificar(pathIN, pathCOD, num)
-
-    xdel(winsid());
-    
+       
     exec('./audioWav.sci');
     exec('./filtros.sci');
+    
+function codificar(pathIN, pathCOD, num)
+    
+    xdel(winsid());
     
     //==========================
     // Definicion de frecuencias
@@ -40,7 +40,12 @@ function codificar(pathIN, pathCOD, num)
     
     //====================================================
  
-    
+    //guardo parametros y filtros para usar en deco
+        save('./filtros_bandas/banda1', 'b1', 'f_p', 'f_s')  
+        save('./filtros_bandas/banda2', 'b2', 'f_s1_b2', 'f_p1_b2', 'f_p2_b2', 'f_s2_b2')    
+        save('./filtros_bandas/banda3', 'b3', 'f_s1_b3', 'f_p1_b3', 'f_p2_b3', 'f_s2_b3') 
+    //-
+        
     //graficar filtros b1, b2 y b3
         graficarFiltro(f_M, b1, '', 0, 6, 2**16);
         graficarFiltro(f_M, b2, '', 0, 1, 2**16);
@@ -54,7 +59,7 @@ function codificar(pathIN, pathCOD, num)
     //-
       
     //señal de audio    
-        //graficarAudio(path, "FFT audio IN en Hertz", num+1);
+        graficarAudio(pathIN, "FFT audio IN en Hertz", num+1);
         [audio_in, Fs_audio, bits] = wavread(pathIN);
         [canales,L] = size(audio_in);
         audio_mono = audio_in(1,:);                      
@@ -141,12 +146,38 @@ function codificar(pathIN, pathCOD, num)
     //salida del CODIFICADOR
         audio_codificado = audio_b1_3_OK + audio_b3_2_OK + audio_b2_1_OK;
         wavwrite(audio_codificado, Fs_audio, pathCOD);
-        //graficarAudio('./questions_money_audio_codificado.wav', "FFT audio OUT en Hertz", num+5);     
+        graficarAudio(pathCOD, "FFT audio OUT en Hertz", num+5);     
     //-
     
 endfunction
 
 function decodificar(pathCOD, pathOUT, num)
+    
+    f_M = 44100;
+    
+    //filtros por banda
+        load('./filtros_bandas/banda1') //b1
+        load('./filtros_bandas/banda2') //b2
+        load('./filtros_bandas/banda3') //b3
+    //-
+    
+    //leo audio
+        [audio_mono, Fs_audio, bits] = wavread(pathCOD);   
+    //-  
+    
+    //division en bandas de la señal de audio          
+        cod_b1 = convol(b1, audio_mono);
+        cod_b2 = convol(b2, audio_mono);
+        cod_b3 = convol(b3, audio_mono); 
+        
+        graficarBandasAudio(f_M, cod_b1, cod_b2, cod_b3, 'Separación en bandas de '+string(pathCOD), 22, 1, 13, 6);
+        legend("banda 2 en el lugar 1", "banda 3 en el lugar 2", "banda 1 en el lugar 3");
+    //- 
+    
+    //
+    
+    //-    
+    
 endfunction
 
 function decodificar_con_cod(pathCOD, pathOUT, num)

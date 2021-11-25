@@ -6,6 +6,7 @@ function graficarAudio(path, titulo, num)
     
     [canales,L] = size(x_in);
     v_phi = (1/L)*[0:1:L-1];
+
     fft_audio_in = fft(x_in);
    
     scf(num);
