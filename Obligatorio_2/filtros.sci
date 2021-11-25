@@ -131,8 +131,8 @@ function graficarFiltro(f_M, filtro, titulo, num, col, L)
     scf(num);
     xgrid();
     plot2d(f_M*vphi,abs(filtroFFT),style=col);
-    title(titulo, "fontsize",4.5);     
-        
+    title(titulo, "fontsize",4.5); 
+
 endfunction
 
 /*

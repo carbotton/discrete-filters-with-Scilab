@@ -47,9 +47,9 @@ function codificar(pathIN, pathCOD, num)
     //-
         
     //graficar filtros b1, b2 y b3
-        graficarFiltro(f_M, b1, '', 0, 6, 2**16);
-        graficarFiltro(f_M, b2, '', 0, 1, 2**16);
-        graficarFiltro(f_M, b3, 'Filtros para las bandas '+string(pathIN), num, 13, 2**16);
+        graficarFiltro(f_M, b1, '', num, 6, 2**16);
+        graficarFiltro(f_M, b2, '', num, 1, 2**16);
+        graficarFiltro(f_M, b3, '(COD) Filtros para las bandas', num, 13, 2**16);
     //-
     
     //anchos de banda
@@ -59,7 +59,7 @@ function codificar(pathIN, pathCOD, num)
     //-
       
     //señal de audio    
-        graficarAudio(pathIN, "FFT audio IN en Hertz", num+1);
+        graficarAudio(pathIN, "FFT audio ORIGINAL en Hertz", num+1);
         [audio_in, Fs_audio, bits] = wavread(pathIN);
         [canales,L] = size(audio_in);
         audio_mono = audio_in(1,:);                      
@@ -70,7 +70,7 @@ function codificar(pathIN, pathCOD, num)
         audio_b2 = convol(b2, audio_mono);
         audio_b3 = convol(b3, audio_mono); 
         
-        graficarBandasAudio(f_M, audio_b1, audio_b2, audio_b3, 'Separación en bandas de '+string(pathIN), num+2, 6, 1, 13);
+        graficarBandasAudio(f_M, audio_b1, audio_b2, audio_b3, '(COD) Separación en bandas', num+2, 6, 1, 13);
         legend("banda 1", "banda 2", "banda 3");
     //-
     
@@ -103,50 +103,26 @@ function codificar(pathIN, pathCOD, num)
             audio_b2_1 = audio_b2.*cos2;                    
         //-
         
-        graficarBandasAudio(f_M, audio_b1_3, audio_b3_2, audio_b2_1, 'Modulación', num+3, 6, 1, 13);
+        graficarBandasAudio(f_M, audio_b1_3, audio_b3_2, audio_b2_1, '(COD) Modulación', num+3, 6, 1, 13);
         legend("banda 1", "banda 2", "banda 3");
                
     //-
     
     //me quedo con la parte de la modulación que me sirve
         
-        //genero filtros
-                       
-            f_s1 = f_mod1_3;           
-            f_p1 = f_mod1_3+10;           
-            f_p2 = f_mod1_3+f_s;          
-            f_s2 = f_p2+10;            
-            audio_b1_3_filtro = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2);   
-            
-            f_s1 = f_mod3_2;           
-            f_p1 = f_mod3_2+10;                            
-            f_s2 = f_mod3_2+bw_b3;     
-            f_p2 = f_s2-10;       
-            audio_b3_2_filtro = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2);
-            
-            f_s1 = f_s1_b2-bw_b2;           
-            f_p1 = f_s1+10;                  
-            f_s2 = bw_b2;
-            f_p2 = f_s2-10;            
-            audio_b2_1_filtro = pasaBandaKaiser(f_M, f_p1, f_p2, f_s1, f_s2);                                
-        //-
-        
-        //aplico filtros
-        
-            audio_b1_3_OK = convol(audio_b1_3_filtro, audio_b1_3);                        
-            audio_b3_2_OK = convol(audio_b3_2_filtro, audio_b3_2);                       
-            audio_b2_1_OK = convol(audio_b2_1_filtro, audio_b2_1);              
-        
-            graficarBandasAudio(f_M, audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "Modulación y filtrado", num+4, 6, 13, 1);
-            legend("banda 1 -> banda 3", "banda 3 -> banda 2", "banda 2 -> banda 1")
+        audio_b1_3_OK = convol(b3, audio_b1_3);                        
+        audio_b3_2_OK = convol(b2, audio_b3_2);                       
+        audio_b2_1_OK = convol(b1, audio_b2_1);              
+    
+        graficarBandasAudio(f_M, audio_b1_3_OK, audio_b3_2_OK, audio_b2_1_OK, "(COD) Modulación y filtrado", num+4, 6, 13, 1);
+        legend("banda 1 -> banda 3", "banda 3 -> banda 2", "banda 2 -> banda 1")
                 
-        //-
     //-
     
     //salida del CODIFICADOR
         audio_codificado = audio_b1_3_OK + audio_b3_2_OK + audio_b2_1_OK;
         wavwrite(audio_codificado, Fs_audio, pathCOD);
-        graficarAudio(pathCOD, "FFT audio OUT en Hertz", num+5);     
+        graficarAudio(pathCOD, "FFT audio CODIFICADO en Hertz", num+5);     
     //-
     
 endfunction
@@ -170,17 +146,55 @@ function decodificar(pathCOD, pathOUT, num)
         cod_b2 = convol(b2, audio_mono);
         cod_b3 = convol(b3, audio_mono); 
         
-        graficarBandasAudio(f_M, cod_b1, cod_b2, cod_b3, 'Separación en bandas de '+string(pathCOD), 22, 1, 13, 6);
+        graficarBandasAudio(f_M, cod_b1, cod_b2, cod_b3, '(DECO) Separación en bandas de', num, 1, 13, 6);
         legend("banda 2 en el lugar 1", "banda 3 en el lugar 2", "banda 1 en el lugar 3");
     //- 
     
-    //
+
+    //b3 a b1
+        f_mod3_1 = -f_s1_b3 ;
+        phi_mod3_1 = f_mod3_1/f_M;
+                
+        n3 = 0: (length(cod_b3)-1);    
+        cos3 = 2*cos(2*%pi*n3*phi_mod3_1);       
+        cod_b3_1 = cod_b3.*cos3; 
+        
+        //filtro para mantener solo banda 1
+        deco_b1 = convol(cod_b3_1, b1);
+    //-
     
-    //-    
+    //b2 a b3
+        f_mod2_3 = f_s1_b3 - f_s1_b2;
+        phi_mod2_3 = f_mod2_3/f_M;
+                
+        n2 = 0: (length(cod_b2)-1);    
+        cos2 = 2*cos(2*%pi*n2*phi_mod2_3);         
+        cod_b2_3 = cod_b2.*cos2;
+        
+        //filtro para mantener solo banda 3  
+        deco_b3 = convol(cod_b2_3, b3);
+    //-
     
+    //b1 a b2
+        f_mod1_2 = f_s;
+        phi_mod1_2 = f_mod1_2/f_M;
+                
+        n1 = 0: (length(cod_b1)-1);    
+        cos1 = 2*cos(2*%pi*n1*phi_mod1_2);         
+        cod_b1_2 = cod_b1.*cos1; 
+        
+        //filtro para mantener solo banda 2
+        deco_b2 = convol(cod_b1_2, b2);
+    //-
+    
+    graficarBandasAudio(f_M, deco_b1, deco_b2, deco_b3, '(DECO) Modulación y filtrado', num+1, 6, 1, 13);
+    legend("banda 1", "banda 2", "banda 3");
+                   
+    //salida del DECODIFICADOR
+        audio_decodificado = deco_b1 + deco_b2 + deco_b3;
+        wavwrite(audio_decodificado, Fs_audio, pathOUT);    
+        graficarAudio(pathOUT, "FFT audio DECODIFICADO en Hertz", num+2);
+    //-
+     
 endfunction
 
-function decodificar_con_cod(pathCOD, pathOUT, num)
-    codificar(pathCOD, pathOUT, num);
-    codificar(pathOUT, pathOUT, num+1);
-endfunction

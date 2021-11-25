@@ -14,6 +14,6 @@ function graficarAudio(path, titulo, num)
     xgrid();
     Fs = 44100;
     plot2d(v_phi*Fs, abs(fft_audio_in), style=9);
-    title(titulo);
-        
+    title(titulo, "fontsize",4.5);
+              
 endfunction

@@ -9,7 +9,6 @@
     pathCOD = './audio_codificado/preamble10_cod.wav';
     pathOUT = './audio_decodificado/preamble10_deco.wav';
     
-    codificar(pathIN, pathCOD, 0);
-    decodificar(pathCOD, pathOUT, 10);
-//    decodificar_con_cod(pathCOD, pathOUT, 10);
+    codificar(pathIN, pathCOD, 1);
+    decodificar(pathCOD, pathOUT, 20);
     
