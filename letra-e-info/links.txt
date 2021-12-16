@@ -1,5 +1,0 @@
-Tutorial for the handbook for acoustic ecology (filters):
-http://www.sfu.ca/sonic-studio-webdav/cmns/Handbook%20Tutorial/Filters.html
-
-Signal processing with scilab:
-https://www.scilab.org/sites/default/files/signal_processing_with_scilab.pdf
